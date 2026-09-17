@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Astral Wallet uses the camera to scan QR codes for payments.</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>Astral Network uses Bluetooth to discover and communicate with nearby nodes securely.</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Astral Network uses Bluetooth to broadcast your secure identity to nearby nodes.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>bluetooth-central</string>
+		<string>bluetooth-peripheral</string>
+	</array>
+</dict>
+</plist>
