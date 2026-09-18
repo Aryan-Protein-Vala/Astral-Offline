@@ -74,9 +74,16 @@ struct AstralWalletView: View {
     @State private var receivedTotal: Int = 0
     @State private var paymentResult: PaymentResultState? = nil
 
-    enum PaymentResultState {
-        case success(String)    // merchant name
-        case failure(String)    // error message
+    enum PaymentResultState: Identifiable {
+        case success(name: String, amount: Int)    // merchant name and amount
+        case failure(String)                       // error message
+
+        var id: String {
+            switch self {
+            case .success(let name, let amount): return "success-\(name)-\(amount)"
+            case .failure(let msg): return "failure-\(msg)"
+            }
+        }
     }
 
     var body: some View {
@@ -108,9 +115,9 @@ struct AstralWalletView: View {
         .onAppear { setupSDKCallbacks() }
         .alert(item: $paymentResult.animation()) { result in
             switch result {
-            case .success(let name):
+            case .success(let name, let amount):
                 return Alert(title: Text("Payment Sent ✅"),
-                           message: Text("₹\(balance / 100) sent to \(name)"),
+                           message: Text("₹\(amount / 100) sent to \(name)"),
                            dismissButton: .default(Text("OK")))
             case .failure(let msg):
                 return Alert(title: Text("Payment Failed ❌"),
@@ -165,7 +172,7 @@ struct AstralWalletView: View {
                         timestamp: Date(), status: "confirmed",
                         counterparty: merchantName
                     ))
-                    paymentResult = .success(merchantName)
+                    paymentResult = .success(name: merchantName, amount: txn.amount)
 
                     let generator = UINotificationFeedbackGenerator()
                     generator.notificationOccurred(.success)
@@ -221,16 +228,6 @@ struct AstralWalletView: View {
     }
 }
 
-// MARK: - Alert Identifiable conformance
-
-extension AstralWalletView.PaymentResultState: Identifiable {
-    var id: String {
-        switch self {
-        case .success(let s): return "success-\(s)"
-        case .failure(let s): return "failure-\(s)"
-        }
-    }
-}
 
 // MARK: - Bluetooth OFF View
 

@@ -1,7 +1,14 @@
 package com.astralnetwork.demo
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.util.Base64
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.camera.core.*
+import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.camera.view.PreviewView
 import androidx.compose.animation.*
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -17,12 +24,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.compose.ui.window.Dialog
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewModelScope
@@ -30,6 +41,9 @@ import com.astralnetwork.sdk.core.AstralSDK
 import com.astralnetwork.sdk.identity.WalletID
 import com.astralnetwork.sdk.wallet.AstralQRPayload
 import com.astralnetwork.sdk.wallet.AstralTransaction
+import com.google.zxing.*
+import com.google.zxing.common.HybridBinarizer
+import com.google.zxing.qrcode.QRCodeWriter
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -209,6 +223,23 @@ fun HomeScreen(viewModel: HomeViewModel) {
             ReceiveSheet(qr = qr, onDismiss = { showReceiveSheet = false })
         }
     }
+    if (showSendSheet) {
+        QRScannerSheetWrapper(
+            onScan = { scannedText ->
+                showSendSheet = false
+                try {
+                    val json = JSONObject(scannedText)
+                    val walletIDStr = json.getString("walletID")
+                    pendingRecipient = AstralQRPayload(WalletID(walletIDStr))
+                } catch (e: Exception) {
+                    try {
+                        pendingRecipient = AstralQRPayload.fromJson(scannedText)
+                    } catch (_: Exception) {}
+                }
+            },
+            onDismiss = { showSendSheet = false }
+        )
+    }
     if (pendingRecipient != null) {
         SendSheet(
             recipient = pendingRecipient!!,
@@ -353,18 +384,50 @@ fun EmptyState() {
     }
 }
 
-// ── Sheets (placeholder — real camera integration adds AVFoundation / CameraX) ─
+// ── Sheets ────────────────────────────────────────────────────────────────────
 
 @Composable
 fun ReceiveSheet(qr: AstralQRPayload, onDismiss: () -> Unit) {
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        containerColor = Color(0xFF111111),
-        title = { Text("Receive", color = TextWhite) },
-        text = { Text("QR: ${qr.walletID.short}\nShare this with the sender.", color = DimWhite) },
-        confirmButton = { TextButton(onClick = onDismiss) { Text("Done", color = TextWhite) } }
-    )
+    val qrBitmap = remember(qr) { generateQRBitmap(qr.toJson(), 512) }
+    Dialog(onDismissRequest = onDismiss) {
+        Column(
+            modifier = Modifier
+                .clip(RoundedCornerShape(24.dp))
+                .background(Color(0xFF111111))
+                .padding(28.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Text("Receive Payment", color = Color.White, fontWeight = FontWeight.SemiBold, fontSize = 18.sp)
+            qrBitmap?.let {
+                Image(
+                    bitmap = it.asImageBitmap(),
+                    contentDescription = "Payment QR",
+                    modifier = Modifier
+                        .size(220.dp)
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(Color.White)
+                        .padding(12.dp)
+                )
+            }
+            Text(qr.walletID.short, color = Color.White.copy(alpha = 0.5f),
+                fontFamily = FontFamily.Monospace, fontSize = 14.sp)
+            Text("Share this QR with the sender", color = Color.White.copy(alpha = 0.4f), fontSize = 12.sp)
+            TextButton(onClick = onDismiss) { Text("Done", color = Color.White) }
+        }
+    }
 }
+
+private fun generateQRBitmap(content: String, size: Int): Bitmap? = try {
+    val writer = QRCodeWriter()
+    val hints = mapOf(EncodeHintType.MARGIN to 1)
+    val matrix = writer.encode(content, BarcodeFormat.QR_CODE, size, size, hints)
+    val bmp = Bitmap.createBitmap(size, size, Bitmap.Config.RGB_565)
+    for (x in 0 until size) for (y in 0 until size) {
+        bmp.setPixel(x, y, if (matrix[x, y]) android.graphics.Color.BLACK else android.graphics.Color.WHITE)
+    }
+    bmp
+} catch (e: Exception) { null }
 
 @Composable
 fun SendSheet(recipient: AstralQRPayload, balance: Long,

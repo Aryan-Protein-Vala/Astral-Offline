@@ -1,0 +1,11 @@
+Target dependency graph (4 targets)
+Target 'AllIncludingTests' in project 'Aggregate'
+➜ Explicit dependency on target 'AstralSDKTests-product' in project 'AstralSDK'
+➜ Dependency on target 'AstralSDKTests-product' in project 'AstralSDK' via transitive dependency through 'AstralSDKTests-test-runner'
+➜ Explicit dependency on target 'AstralSDK-product' in project 'AstralSDK'
+➜ Explicit dependency on target 'AstralSDK' in project 'AstralSDK'
+Target 'AstralSDK-product' in project 'AstralSDK'
+➜ Explicit dependency on target 'AstralSDK' in project 'AstralSDK'
+Target 'AstralSDKTests-product' in project 'AstralSDK'
+➜ Explicit dependency on target 'AstralSDK' in project 'AstralSDK'
+Target 'AstralSDK' in project 'AstralSDK' (no dependencies)

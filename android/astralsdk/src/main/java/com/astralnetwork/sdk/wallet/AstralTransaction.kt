@@ -27,6 +27,26 @@ data class AstralTransaction(
     val memo: String = "",
     var status: Status = Status.PENDING
 ) {
+    val amount: Int get() = amountPaisa.toInt()
+
+    constructor(
+        id: String = UUID.randomUUID().toString(),
+        amount: Int,
+        senderID: WalletID,
+        recipientID: WalletID,
+        timestamp: Long = System.currentTimeMillis(),
+        status: Status = Status.PENDING,
+        memo: String = ""
+    ) : this(
+        id = id,
+        senderID = senderID,
+        recipientID = recipientID,
+        amountPaisa = amount.toLong(),
+        timestamp = timestamp,
+        memo = memo,
+        status = status
+    )
+
     enum class Status { PENDING, SENT, RECEIVED, FAILED }
 
     companion object {
@@ -38,36 +58,46 @@ data class AstralTransaction(
         private const val ID_SIZE = 8
 
         fun decode(data: ByteArray): AstralTransaction? = try {
-            if (data.size < HEADER_SIZE + ID_SIZE * 2) return null
-            val buf = ByteBuffer.wrap(data).order(ByteOrder.BIG_ENDIAN)
+            if (data.size < HEADER_SIZE + ID_SIZE * 2) null
+            else {
+                val buf = ByteBuffer.wrap(data).order(ByteOrder.BIG_ENDIAN)
 
-            val version = buf.get()
-            if (version != VERSION) return null
-            val type = buf.get()
-            if (type != TYPE_PAYMENT) return null
-            buf.get() // TTL (skip)
-            val ts = buf.long
-            val flags = buf.get()
-            val hasRecipient = (flags.toInt() and FLAG_HAS_RECIPIENT.toInt()) != 0
-            val payloadLen = buf.short.toInt() and 0xFFFF
+                val version = buf.get()
+                if (version != VERSION && version != 1.toByte()) null
+                else {
+                    val type = buf.get()
+                    if (type != TYPE_PAYMENT) null
+                    else {
+                        buf.get() // TTL (skip)
+                        val ts = buf.long
+                        val flags = buf.get()
+                        val hasRecipient = (flags.toInt() and FLAG_HAS_RECIPIENT.toInt()) != 0
+                        val payloadLen = buf.short.toInt() and 0xFFFF
 
-            val senderBytes = ByteArray(ID_SIZE).also { buf.get(it) }
-            if (hasRecipient) ByteArray(ID_SIZE).also { buf.get(it) }
+                        val senderBytes = ByteArray(ID_SIZE).also { buf.get(it) }
+                        if (hasRecipient) ByteArray(ID_SIZE).also { buf.get(it) }
 
-            if (buf.remaining() < payloadLen) return null
-            val payloadBytes = ByteArray(payloadLen).also { buf.get(it) }
-            val json = JSONObject(String(payloadBytes, Charsets.UTF_8))
+                        if (buf.remaining() < payloadLen) null
+                        else {
+                            val payloadBytes = ByteArray(payloadLen).also { buf.get(it) }
+                            val json = JSONObject(String(payloadBytes, Charsets.UTF_8))
 
-            AstralTransaction(
-                id = json.getString("txn_id"),
-                senderID = WalletID(json.getString("sender")),
-                recipientID = WalletID(json.getString("recipient")),
-                amountPaisa = json.getLong("amount"),
-                timestamp = json.optLong("ts", ts),
-                memo = json.optString("memo", ""),
-                status = Status.RECEIVED
-            )
-        } catch (e: Exception) { null }
+                            AstralTransaction(
+                                id = json.getString("txn_id"),
+                                senderID = WalletID(json.getString("sender")),
+                                recipientID = WalletID(json.getString("recipient")),
+                                amountPaisa = json.getLong("amount"),
+                                timestamp = json.optLong("ts", ts),
+                                memo = json.optString("memo", ""),
+                                status = Status.RECEIVED
+                            )
+                        }
+                    }
+                }
+            }
+        } catch (_: Exception) {
+            null
+        }
     }
 
     /**

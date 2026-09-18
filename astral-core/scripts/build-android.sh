@@ -1,22 +1,68 @@
 #!/usr/bin/env bash
-set -e
+# =============================================================================
+# build-android.sh — Compile astral-core Rust library for Android
+#
+# Prerequisites:
+#   1. Android NDK installed (API 26+)
+#      export ANDROID_NDK_HOME=/path/to/ndk
+#   2. Cargo targets: run this script once and it installs them automatically
+#   3. cargo-ndk: installed automatically if missing
+#
+# Output: android/astralsdk/src/main/jniLibs/{arm64-v8a,armeabi-v7a,x86_64}/libastral_core.so
+# =============================================================================
+set -euo pipefail
 
-# Export your Android SDK and NDK paths
-export ANDROID_NDK_HOME="${ANDROID_NDK_HOME:-$HOME/Library/Android/sdk/ndk/26.1.10909125}"
-TARGET_DIR="target"
-JNI_LIBS_DIR="../android/astralsdk/src/main/jniLibs"
-KOTLIN_OUT_DIR="../android/astralsdk/src/main/java/com/astralnetwork/core"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CORE_DIR="$SCRIPT_DIR/.."
+ANDROID_JNI_DIR="$SCRIPT_DIR/../../android/astralsdk/src/main/jniLibs"
+BINDINGS_OUT="$SCRIPT_DIR/../../android/astralsdk/src/main/java/uniffi"
 
-echo "==> Building Native Binaries for Android via cargo-ndk..."
+echo "🦀 Building astral-core for Android..."
 
-cargo ndk -t arm64-v8a -t armeabi-v7a -t x86_64 -o "$JNI_LIBS_DIR" build --release
+# ── Install cargo-ndk if missing ──────────────────────────────────────────────
+if ! command -v cargo-ndk &> /dev/null; then
+    echo "📦 Installing cargo-ndk..."
+    cargo install cargo-ndk
+fi
 
-echo "==> Generating Kotlin Bindings via uniffi-bindgen..."
+# ── Add Android targets if missing ────────────────────────────────────────────
+TARGETS=(
+    "aarch64-linux-android"     # ARM64 — modern phones (Pixel, Samsung, OnePlus)
+    "armv7-linux-androideabi"   # ARMv7 — older phones
+    "x86_64-linux-android"      # x86_64 — emulator
+)
 
-mkdir -p "$KOTLIN_OUT_DIR"
-cargo run --features=uniffi/cli --bin uniffi-bindgen generate \
-    --library target/aarch64-linux-android/release/libastral_core.so \
+for target in "${TARGETS[@]}"; do
+    rustup target add "$target" 2>/dev/null || true
+done
+
+# ── Compile for all targets ───────────────────────────────────────────────────
+echo "🔨 Compiling for all Android architectures..."
+cd "$CORE_DIR"
+
+cargo ndk \
+    --target aarch64-linux-android \
+    --target armv7-linux-androideabi \
+    --target x86_64-linux-android \
+    --android-platform 26 \
+    -o "$ANDROID_JNI_DIR" \
+    build --release
+
+echo "✅ Native .so files written to $ANDROID_JNI_DIR"
+
+# ── Generate Kotlin UniFFI bindings ───────────────────────────────────────────
+echo "📋 Generating Kotlin UniFFI bindings..."
+mkdir -p "$BINDINGS_OUT"
+
+cargo run --bin uniffi-bindgen generate \
+    --library "$CORE_DIR/target/aarch64-linux-android/release/libastral_core.so" \
     --language kotlin \
-    --out-dir "$KOTLIN_OUT_DIR"
+    --out-dir "$BINDINGS_OUT"
 
-echo "==> Android Build Complete."
+echo "✅ Kotlin bindings written to $BINDINGS_OUT"
+echo ""
+echo "🎉 Android build complete!"
+echo "   .so files:       $ANDROID_JNI_DIR"
+echo "   Kotlin bindings: $BINDINGS_OUT"
+echo ""
+echo "Next: Open android/ in Android Studio and run the app."

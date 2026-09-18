@@ -26,8 +26,8 @@ impl MeshRouter {
     }
 
     /// Processes an incoming raw payload from the physical radio (e.g. BLE/WiFi).
-    /// Returns the encrypted payload if the packet was meant for this device.
-    pub fn handle_incoming_payload(&self, raw_data: Vec<u8>) -> Result<Option<Vec<u8>>, AstralError> {
+    /// Returns the deserialized `MeshPacket` if the packet was meant for this device.
+    pub fn handle_incoming_packet(&self, raw_data: Vec<u8>) -> Result<Option<MeshPacket>, AstralError> {
         let mut packet: MeshPacket = bincode::deserialize(&raw_data).map_err(|_| AstralError::FramingError {
             reason: "Failed to deserialize mesh packet".into()
         })?;
@@ -38,7 +38,7 @@ impl MeshRouter {
         self.storage.mark_packet_seen(packet.id.clone());
 
         if packet.recipient_pubkey == self.local_pubkey {
-            return Ok(Some(packet.encrypted_payload));
+            return Ok(Some(packet));
         }
 
         // Opportunistic DTN Routing
@@ -52,6 +52,12 @@ impl MeshRouter {
         }
 
         Ok(None)
+    }
+
+    /// Processes an incoming raw payload from the physical radio (e.g. BLE/WiFi).
+    /// Returns the encrypted payload if the packet was meant for this device.
+    pub fn handle_incoming_payload(&self, raw_data: Vec<u8>) -> Result<Option<Vec<u8>>, AstralError> {
+        Ok(self.handle_incoming_packet(raw_data)?.map(|p| p.encrypted_payload))
     }
 
     /// Triggers a re-broadcast of all stored, unexpired packets.

@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("com.google.devtools.ksp")      // Room annotation processor
 }
 
 android {
@@ -31,9 +32,14 @@ android {
 }
 
 dependencies {
-    // Coroutines (async payment flows)
+    // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
-    // That's it. Zero external dependencies.
-    // Android SDK APIs (BLE, Keystore, crypto) are all in the platform.
+    // Room DB — mesh packet persistence for Spray-and-Wait routing
+    val roomVersion = "2.6.1"
+    implementation("androidx.room:room-runtime:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
+    ksp("androidx.room:room-compiler:$roomVersion")
+
+    // Android platform APIs (BLE, Keystore, crypto) — no extra deps needed
 }

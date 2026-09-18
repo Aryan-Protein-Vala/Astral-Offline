@@ -5,22 +5,37 @@ let package = Package(
     name: "AstralOfflineSDK",
     platforms: [
         .iOS(.v17),
-        .macOS(.v14)  // macOS 14 Sonoma — full Bonjour + Network.framework support
+        .macOS(.v14)
     ],
     products: [
-        .library(
-            name: "AstralOfflineSDK",
-            targets: ["AstralOfflineSDK"]
-        ),
+        // Main SDK — what apps import
+        .library(name: "AstralOfflineSDK", targets: ["AstralOfflineSDK"]),
     ],
     targets: [
+        // Swift SDK target
         .target(
             name: "AstralOfflineSDK",
-            path: "Sources/AstralOfflineSDK"
+            path: "Sources/AstralOfflineSDK",
+            resources: [],
+            swiftSettings: [
+                .enableUpcomingFeature("StrictConcurrency")
+            ],
+            linkerSettings: [
+                // CoreData — for mesh packet persistence
+                .linkedFramework("CoreData"),
+                // CoreBluetooth — BLE mesh transport
+                .linkedFramework("CoreBluetooth"),
+                // Network.framework — WiFi Bonjour transport
+                .linkedFramework("Network"),
+                // AVFoundation — QR scanner camera
+                .linkedFramework("AVFoundation"),
+            ]
         ),
         .testTarget(
             name: "AstralOfflineSDKTests",
-            dependencies: ["AstralOfflineSDK"]
+            dependencies: ["AstralOfflineSDK"],
+            path: "Tests/AstralOfflineSDKTests"
         ),
     ]
 )
+

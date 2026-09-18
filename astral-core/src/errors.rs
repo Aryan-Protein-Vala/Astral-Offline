@@ -7,7 +7,7 @@ pub enum AstralError {
     #[error("Double spend detected. Transaction counter {counter} invalid")]
     DoubleSpendDetected { counter: u64 },
     #[error("Packet reassembly timed out for session {session_id}")]
-    ReassemblyTimeout { session_id: u32 },
+    ReassemblyTimeout { session_id: u16 },
     #[error("Payload exceeds maximum protocol capacity: {size} bytes")]
     PayloadTooLarge { size: u32 },
 }

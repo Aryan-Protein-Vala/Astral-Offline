@@ -107,7 +107,7 @@ public final class KeyManager {
         } else {
             let accessControl = SecAccessControlCreateWithFlags(
                 nil,
-                kSecAttrAccessibleWhenUnlockedThisDeviceOnly,
+                kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly,
                 [.privateKeyUsage],
                 nil
             )!
@@ -123,7 +123,7 @@ public final class KeyManager {
         } else {
             let accessControl = SecAccessControlCreateWithFlags(
                 nil,
-                kSecAttrAccessibleWhenUnlockedThisDeviceOnly,
+                kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly,
                 [.privateKeyUsage],
                 nil
             )!
@@ -213,7 +213,7 @@ public final class KeyManager {
             kSecAttrService as String: config.keychainService,
             kSecAttrAccount as String: tag,
             kSecValueData as String: data,
-            kSecAttrAccessible as String: kSecAttrAccessibleWhenUnlockedThisDeviceOnly
+            kSecAttrAccessible as String: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
         ]
         SecItemDelete(query as CFDictionary)
         let status = SecItemAdd(query as CFDictionary, nil)
@@ -238,7 +238,7 @@ public final class KeyManager {
             kSecAttrService as String: config.keychainService,
             kSecAttrAccount as String: tag,
             kSecValueData as String: data,
-            kSecAttrAccessible as String: kSecAttrAccessibleWhenUnlockedThisDeviceOnly
+            kSecAttrAccessible as String: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly
         ]
         SecItemDelete(query as CFDictionary)
         let status = SecItemAdd(query as CFDictionary, nil)

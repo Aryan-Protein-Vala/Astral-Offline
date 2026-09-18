@@ -193,6 +193,13 @@ public final class AstralSDK: ObservableObject {
             return
         }
 
+        // 5b. Cryptographic binding: assert sender public key matches transaction senderID
+        guard WalletID(publicKey: signedTxn.senderPublicKey) == txn.senderID else {
+            respond(.rejected(.verificationFailed))
+            reportRejection(rawData, error: .verificationFailed)
+            return
+        }
+
         // 6. Bloom filter dedup — prevents double-spend replay attacks
         if deduplicationService.isDuplicate(txn.id) {
             respond(.rejected(.duplicate))

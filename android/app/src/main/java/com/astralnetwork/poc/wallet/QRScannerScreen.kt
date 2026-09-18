@@ -226,6 +226,15 @@ fun CameraQRScanner(onQRScanned: (String) -> Unit) {
         )
     }
 
+    // Properly remember camera executor and shut it down when disposed
+    val cameraExecutor = remember { Executors.newSingleThreadExecutor() }
+
+    DisposableEffect(Unit) {
+        onDispose {
+            cameraExecutor.shutdown()
+        }
+    }
+
     val permissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { granted -> hasCameraPermission = granted }
@@ -252,7 +261,7 @@ fun CameraQRScanner(onQRScanned: (String) -> Unit) {
                         .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                         .build()
                         .also {
-                            it.setAnalyzer(Executors.newSingleThreadExecutor()) { imageProxy ->
+                            it.setAnalyzer(cameraExecutor) { imageProxy ->
                                 processQRImage(imageProxy, onQRScanned)
                             }
                         }
@@ -285,7 +294,7 @@ fun CameraQRScanner(onQRScanned: (String) -> Unit) {
  * NO format filtering — passes ALL QR content to the callback.
  * Uses a cooldown to prevent firing the same QR 60x/sec.
  */
-@androidx.annotation.OptIn(ExperimentalGetImage::class)
+@kotlin.OptIn(ExperimentalGetImage::class)
 private fun processQRImage(imageProxy: ImageProxy, onResult: (String) -> Unit) {
     val mediaImage = imageProxy.image ?: run { imageProxy.close(); return }
     val image = InputImage.fromMediaImage(mediaImage, imageProxy.imageInfo.rotationDegrees)

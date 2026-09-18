@@ -1,0 +1,4 @@
+module AstralSDK {
+header "AstralSDK-Swift.h"
+export *
+}

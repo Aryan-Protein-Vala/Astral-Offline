@@ -55,10 +55,17 @@ public final class BLETransport: NSObject, AstralTransport, ObservableObject {
     private var pendingSends: [(Data, WalletID, (Result<Void, AstralError>) -> Void)] = []
 
     // Pending ACK — completion closures waiting for merchant response.
-    // Key = incrementing send ID. Value = (completion handler, timeout timer).
-    // Completion is ONLY called when merchant sends ACK/NACK on rxCharUUID.
-    private var pendingACKs: [UInt16: (completion: (Result<Void, AstralError>) -> Void, timer: DispatchWorkItem)] = [:]
-    private var nextSendID: UInt16 = 0
+    private struct PendingACK {
+        let id: UInt64
+        let completion: (Result<Void, AstralError>) -> Void
+        let timer: DispatchWorkItem
+    }
+
+    private var pendingACKQueue: [PendingACK] = []
+    private var nextSendID: UInt64 = 0
+
+    // Per-central fragmenters for isolating interleaved writes from multiple devices
+    private var centralFragmenters: [UUID: PacketFragmenter] = [:]
 
     // Queue
     private let bleQueue = DispatchQueue(label: "com.astral.ble", qos: .userInitiated)
@@ -95,6 +102,7 @@ public final class BLETransport: NSObject, AstralTransport, ObservableObject {
             centralManager?.cancelPeripheralConnection(peripheral)
         }
         peripheralManager?.stopAdvertising()
+        failAllPendingACKs(with: .failure(.bleUnavailable))
         isAvailable = false
         onStatusChanged?(false)
     }
@@ -152,7 +160,7 @@ public final class BLETransport: NSObject, AstralTransport, ObservableObject {
     private func setupPeripheralServices() {
         txCharacteristicMutable = CBMutableCharacteristic(
             type: txCharUUID,
-            properties: [.write],  // .write ONLY — requires response (no writeWithoutResponse)
+            properties: [.write, .writeWithoutResponse],
             value: nil,
             permissions: [.writeable]
         )
@@ -199,31 +207,42 @@ public final class BLETransport: NSObject, AstralTransport, ObservableObject {
     ) {
         let fragments = fragmenter.fragment(data)
 
-        // Store completion — DO NOT call it yet.
+        // Store completion in pending ACK queue — DO NOT call it yet.
         // It will fire when merchant sends ACK/NACK on rxCharUUID.
         let sendID = nextSendID
-        nextSendID &+= 1
+        nextSendID += 1
 
-        // Timeout: if merchant doesn't respond within 10s, fail
+        // Timeout: if merchant doesn't respond within paymentTimeoutSeconds, fail
         let timeout = DispatchWorkItem { [weak self] in
             guard let self = self else { return }
-            if let pending = self.pendingACKs.removeValue(forKey: sendID) {
+            if let index = self.pendingACKQueue.firstIndex(where: { $0.id == sendID }) {
+                let pending = self.pendingACKQueue.remove(at: index)
                 pending.completion(.failure(.paymentFailed("Merchant did not respond (timeout)")))
             }
         }
-        pendingACKs[sendID] = (completion: completion, timer: timeout)
+        pendingACKQueue.append(PendingACK(id: sendID, completion: completion, timer: timeout))
         bleQueue.asyncAfter(deadline: .now() + config.paymentTimeoutSeconds, execute: timeout)
+
+        let canWriteWithResponse = characteristic.properties.contains(.write)
+        let canWriteWithoutResponse = characteristic.properties.contains(.writeWithoutResponse)
 
         // Write all fragments
         if fragments.count == 1 {
-            peripheral.writeValue(fragments[0], for: characteristic, type: .withResponse)
+            let writeType: CBCharacteristicWriteType = canWriteWithResponse ? .withResponse : .withoutResponse
+            peripheral.writeValue(fragments[0], for: characteristic, type: writeType)
             return  // Wait for merchant ACK — DO NOT call completion here
         }
 
         for (index, fragment) in fragments.enumerated() {
             let delay = TimeInterval(index) * TimeInterval(config.bleFragmentSpacingMs) / 1000.0
             bleQueue.asyncAfter(deadline: .now() + delay) {
-                let writeType: CBCharacteristicWriteType = (index == fragments.count - 1) ? .withResponse : .withoutResponse
+                let isLast = (index == fragments.count - 1)
+                let writeType: CBCharacteristicWriteType
+                if isLast {
+                    writeType = canWriteWithResponse ? .withResponse : .withoutResponse
+                } else {
+                    writeType = canWriteWithoutResponse ? .withoutResponse : .withResponse
+                }
                 peripheral.writeValue(fragment, for: characteristic, type: writeType)
                 // DO NOT call completion here — wait for merchant ACK
             }
@@ -232,15 +251,21 @@ public final class BLETransport: NSObject, AstralTransport, ObservableObject {
 
     // MARK: - ACK/NACK Sending
 
-    /// Send application-level ACK to customer via BLE notify.
-    private func sendACK() {
+    /// Send application-level ACK to customer via BLE notify scoped to the specific central.
+    private func sendACK(to central: CBCentral? = nil) {
         guard let rxChar = rxCharacteristicMutable else { return }
         let ackData = Data([0x01])  // 0x01 = payment verified + accepted
-        peripheralManager?.updateValue(ackData, for: rxChar, onSubscribedCentrals: nil)
+        let targetCentrals: [CBCentral]?
+        if let central = central {
+            targetCentrals = [central]
+        } else {
+            targetCentrals = subscribedCentrals.isEmpty ? nil : subscribedCentrals
+        }
+        peripheralManager?.updateValue(ackData, for: rxChar, onSubscribedCentrals: targetCentrals)
     }
 
-    /// Send application-level NACK to customer via BLE notify.
-    private func sendNACK(error: AstralError) {
+    /// Send application-level NACK to customer via BLE notify scoped to the specific central.
+    private func sendNACK(error: AstralError, to central: CBCentral? = nil) {
         guard let rxChar = rxCharacteristicMutable else { return }
         let reasonByte: UInt8
         switch error {
@@ -250,7 +275,13 @@ public final class BLETransport: NSObject, AstralTransport, ObservableObject {
         default:                  reasonByte = 0xFF
         }
         let nackData = Data([0x00, reasonByte])  // 0x00 = rejected
-        peripheralManager?.updateValue(nackData, for: rxChar, onSubscribedCentrals: nil)
+        let targetCentrals: [CBCentral]?
+        if let central = central {
+            targetCentrals = [central]
+        } else {
+            targetCentrals = subscribedCentrals.isEmpty ? nil : subscribedCentrals
+        }
+        peripheralManager?.updateValue(nackData, for: rxChar, onSubscribedCentrals: targetCentrals)
     }
 }
 
@@ -303,11 +334,13 @@ extension BLETransport: CBCentralManagerDelegate {
         for (_, _, completion) in sends {
             completion(.failure(.bleUnavailable))
         }
+        failAllPendingACKs(with: .failure(.bleUnavailable))
     }
 
     public func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
         connectedPeripheral = nil
         txCharacteristic = nil
+        failAllPendingACKs(with: .failure(.bleUnavailable))
     }
 
     public func centralManager(_ central: CBCentralManager, willRestoreState dict: [String: Any]) {}
@@ -406,15 +439,20 @@ extension BLETransport: CBPeripheralDelegate {
 
     /// Resolve the oldest pending ACK completion (FIFO order).
     private func resolveOldestPending(with result: Result<Void, AstralError>) {
-        // Find the oldest (lowest sendID) pending ACK
-        guard let oldestKey = pendingACKs.keys.sorted().first,
-              let pending = pendingACKs.removeValue(forKey: oldestKey) else {
-            return
-        }
-        // Cancel the timeout timer
+        guard !pendingACKQueue.isEmpty else { return }
+        let pending = pendingACKQueue.removeFirst()
         pending.timer.cancel()
-        // Fire the completion — THIS is when the customer's UI updates
         pending.completion(result)
+    }
+
+    /// Cancel all pending ACKs with the provided error.
+    private func failAllPendingACKs(with result: Result<Void, AstralError>) {
+        let pendings = pendingACKQueue
+        pendingACKQueue.removeAll()
+        for pending in pendings {
+            pending.timer.cancel()
+            pending.completion(result)
+        }
     }
 
     private func flushPendingSends(to peripheral: CBPeripheral) {
@@ -453,18 +491,24 @@ extension BLETransport: CBPeripheralManagerDelegate {
                 // Accept the ATT write (required by CoreBluetooth protocol)
                 peripheral.respond(to: request, withResult: .success)
 
+                let central = request.central
+                var centralFragmenter = centralFragmenters[central.identifier] ?? PacketFragmenter(mtu: config.bleFragmentSize)
+                let reassembled = centralFragmenter.reassemble(data)
+                centralFragmenters[central.identifier] = centralFragmenter
+
                 // Reassemble fragments if needed
-                if let reassembled = fragmenter.reassemble(data) {
+                if let completePacket = reassembled {
+                    centralFragmenters.removeValue(forKey: central.identifier)
                     // Forward raw ENCRYPTED bytes to SDK WITH a respond callback.
                     // SDK runs: decrypt → verify sig → dedup check.
                     // Then calls respond(.verified) or respond(.rejected(error)).
-                    // We use that to send ACK or NACK back to the customer's phone.
-                    onRawDataReceived?(reassembled) { [weak self] result in
+                    // We use that to send ACK or NACK back specifically to the customer's phone.
+                    onRawDataReceived?(completePacket) { [weak self] result in
                         switch result {
                         case .verified:
-                            self?.sendACK()
+                            self?.sendACK(to: central)
                         case .rejected(let error):
-                            self?.sendNACK(error: error)
+                            self?.sendNACK(error: error, to: central)
                         }
                     }
                 }
@@ -480,6 +524,7 @@ extension BLETransport: CBPeripheralManagerDelegate {
 
     public func peripheralManager(_ peripheral: CBPeripheralManager, central: CBCentral, didUnsubscribeFrom characteristic: CBCharacteristic) {
         subscribedCentrals.removeAll { $0.identifier == central.identifier }
+        centralFragmenters.removeValue(forKey: central.identifier)
     }
 
     public func peripheralManager(_ peripheral: CBPeripheralManager, willRestoreState dict: [String: Any]) {}

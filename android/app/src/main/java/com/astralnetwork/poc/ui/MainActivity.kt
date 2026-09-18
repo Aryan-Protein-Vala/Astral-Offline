@@ -24,14 +24,25 @@ class MainActivity : ComponentActivity() {
 
     private lateinit var sdk: AstralSDK
     private lateinit var bleTransport: BLETransport
+    private var isSdkInitialized = false
 
     private val permissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { permissions ->
-        val allGranted = permissions.values.all { it }
-        Log.d("ASTRAL_NET", "Permissions granted: $allGranted")
-        if (allGranted) {
+        val btPermissions = getBluetoothPermissions()
+        val btGranted = btPermissions.all { perm ->
+            permissions[perm] == true || ContextCompat.checkSelfPermission(this, perm) == PackageManager.PERMISSION_GRANTED
+        }
+        val cameraGranted = permissions[Manifest.permission.CAMERA] == true ||
+            ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+
+        Log.d("ASTRAL_NET", "Permissions callback — Bluetooth: $btGranted, Camera: $cameraGranted")
+
+        // Separate Bluetooth from Camera: initialize SDK as long as Bluetooth permissions are granted!
+        if (btGranted && !isSdkInitialized) {
             initializeSDK()
+        } else if (!btGranted) {
+            Log.w("ASTRAL_NET", "Bluetooth permissions not granted; SDK waiting for BLE permission.")
         }
     }
 
@@ -43,22 +54,30 @@ class MainActivity : ComponentActivity() {
         bleTransport = BLETransport(this)
         sdk.registerTransport(bleTransport)
 
-        // 2. Request permissions, then init SDK
-        if (hasPermissions()) {
+        // 2. Check and initialize SDK if Bluetooth permissions already granted
+        if (hasBluetoothPermissions() && !isSdkInitialized) {
             initializeSDK()
-        } else {
-            requestPermissions()
         }
 
-        // 3. Set UI content — pass SDK instance to wallet
+        // 3. Request missing permissions (Bluetooth and/or Camera)
+        val missingPermissions = getAllRequiredPermissions().filter {
+            ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED
+        }
+        if (missingPermissions.isNotEmpty()) {
+            permissionLauncher.launch(missingPermissions.toTypedArray())
+        }
+
+        // 4. Set UI content — pass SDK instance to wallet
         setContent {
             AstralWalletApp(sdk = sdk)
         }
     }
 
     private fun initializeSDK() {
+        if (isSdkInitialized) return
         try {
             sdk.start()
+            isSdkInitialized = true
             Log.d("ASTRAL_NET", "✅ AstralSDK started — wallet: ${sdk.walletID?.short}")
             Log.d("ASTRAL_NET", "🔐 Hardware-backed: ${sdk.isHardwareBacked}")
         } catch (e: Exception) {
@@ -66,34 +85,30 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun hasPermissions(): Boolean {
-        val permissions = getRequiredPermissions()
-        return permissions.all {
+    private fun hasBluetoothPermissions(): Boolean {
+        return getBluetoothPermissions().all {
             ContextCompat.checkSelfPermission(this, it) == PackageManager.PERMISSION_GRANTED
         }
     }
 
-    private fun requestPermissions() {
-        permissionLauncher.launch(getRequiredPermissions())
-    }
-
-    private fun getRequiredPermissions(): Array<String> {
+    private fun getBluetoothPermissions(): Array<String> {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             arrayOf(
                 Manifest.permission.BLUETOOTH_SCAN,
                 Manifest.permission.BLUETOOTH_ADVERTISE,
-                Manifest.permission.BLUETOOTH_CONNECT,
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.CAMERA
+                Manifest.permission.BLUETOOTH_CONNECT
             )
         } else {
             arrayOf(
                 Manifest.permission.BLUETOOTH,
                 Manifest.permission.BLUETOOTH_ADMIN,
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.CAMERA
+                Manifest.permission.ACCESS_FINE_LOCATION
             )
         }
+    }
+
+    private fun getAllRequiredPermissions(): Array<String> {
+        return getBluetoothPermissions() + arrayOf(Manifest.permission.CAMERA)
     }
 
     override fun onDestroy() {

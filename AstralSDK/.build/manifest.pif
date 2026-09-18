@@ -5,11 +5,11 @@
       "name" : "AstralSDK",
       "path" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK",
       "projects" : [
-        "50f98aadcd688b634f4e24acdd64a87d6820448ba14b495bdcc7bdbc6dea8bdd",
+        "648401627bbb0456b341ee6cba642e00eef67dd3903691de209aa7583ec53cfb",
         "d79cda9da755165665a1b45ac5c0bf7770bb8a23e097afd392fd80f8f4a2a4e5"
       ]
     },
-    "signature" : "43a12894ab85247c9c630aeb0dffa0cc426146ac2f2b0ecb5de7694d10cdd8c0",
+    "signature" : "d34979370f590750e7b613daebb42dc2564ca234e4b71193a89212537d928a0a",
     "type" : "workspace"
   },
   {
@@ -248,6 +248,22 @@
               {
                 "fileType" : "sourcecode.swift",
                 "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_3::REF_3",
+                "name" : "Crypto/NoiseSession.swift",
+                "path" : "Crypto/NoiseSession.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_3::REF_4",
+                "name" : "Crypto/TransactionSigner.swift",
+                "path" : "Crypto/TransactionSigner.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_3::REF_5",
                 "name" : "Identity/KeyManager.swift",
                 "path" : "Identity/KeyManager.swift",
                 "sourceTree" : "<group>",
@@ -255,7 +271,7 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_3::REF_4",
+                "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_3::REF_6",
                 "name" : "Identity/WalletID.swift",
                 "path" : "Identity/WalletID.swift",
                 "sourceTree" : "<group>",
@@ -263,7 +279,7 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_3::REF_5",
+                "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_3::REF_7",
                 "name" : "Protocol/AstralPacket.swift",
                 "path" : "Protocol/AstralPacket.swift",
                 "sourceTree" : "<group>",
@@ -271,7 +287,15 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_3::REF_6",
+                "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_3::REF_8",
+                "name" : "Protocol/PacketFragmenter.swift",
+                "path" : "Protocol/PacketFragmenter.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_3::REF_9",
                 "name" : "Routing/PaymentRouter.swift",
                 "path" : "Routing/PaymentRouter.swift",
                 "sourceTree" : "<group>",
@@ -279,7 +303,7 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_3::REF_7",
+                "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_3::REF_10",
                 "name" : "Sync/DeduplicationService.swift",
                 "path" : "Sync/DeduplicationService.swift",
                 "sourceTree" : "<group>",
@@ -287,7 +311,7 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_3::REF_8",
+                "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_3::REF_11",
                 "name" : "Transport/AstralTransport.swift",
                 "path" : "Transport/AstralTransport.swift",
                 "sourceTree" : "<group>",
@@ -295,7 +319,7 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_3::REF_9",
+                "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_3::REF_12",
                 "name" : "Transport/BLETransport.swift",
                 "path" : "Transport/BLETransport.swift",
                 "sourceTree" : "<group>",
@@ -303,7 +327,7 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_3::REF_10",
+                "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_3::REF_13",
                 "name" : "Transport/RelayTransport.swift",
                 "path" : "Transport/RelayTransport.swift",
                 "sourceTree" : "<group>",
@@ -311,7 +335,7 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_3::REF_11",
+                "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_3::REF_14",
                 "name" : "Wallet/AstralQRPayload.swift",
                 "path" : "Wallet/AstralQRPayload.swift",
                 "sourceTree" : "<group>",
@@ -319,7 +343,7 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_3::REF_12",
+                "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_3::REF_15",
                 "name" : "Wallet/AstralTransaction.swift",
                 "path" : "Wallet/AstralTransaction.swift",
                 "sourceTree" : "<group>",
@@ -361,6 +385,22 @@
               {
                 "fileType" : "sourcecode.swift",
                 "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_4::REF_3",
+                "name" : "Crypto/NoiseSession.swift",
+                "path" : "Crypto/NoiseSession.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_4::REF_4",
+                "name" : "Crypto/TransactionSigner.swift",
+                "path" : "Crypto/TransactionSigner.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_4::REF_5",
                 "name" : "Identity/KeyManager.swift",
                 "path" : "Identity/KeyManager.swift",
                 "sourceTree" : "<group>",
@@ -368,7 +408,7 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_4::REF_4",
+                "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_4::REF_6",
                 "name" : "Identity/WalletID.swift",
                 "path" : "Identity/WalletID.swift",
                 "sourceTree" : "<group>",
@@ -376,7 +416,7 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_4::REF_5",
+                "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_4::REF_7",
                 "name" : "Protocol/AstralPacket.swift",
                 "path" : "Protocol/AstralPacket.swift",
                 "sourceTree" : "<group>",
@@ -384,7 +424,15 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_4::REF_6",
+                "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_4::REF_8",
+                "name" : "Protocol/PacketFragmenter.swift",
+                "path" : "Protocol/PacketFragmenter.swift",
+                "sourceTree" : "<group>",
+                "type" : "file"
+              },
+              {
+                "fileType" : "sourcecode.swift",
+                "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_4::REF_9",
                 "name" : "Routing/PaymentRouter.swift",
                 "path" : "Routing/PaymentRouter.swift",
                 "sourceTree" : "<group>",
@@ -392,7 +440,7 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_4::REF_7",
+                "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_4::REF_10",
                 "name" : "Sync/DeduplicationService.swift",
                 "path" : "Sync/DeduplicationService.swift",
                 "sourceTree" : "<group>",
@@ -400,7 +448,7 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_4::REF_8",
+                "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_4::REF_11",
                 "name" : "Transport/AstralTransport.swift",
                 "path" : "Transport/AstralTransport.swift",
                 "sourceTree" : "<group>",
@@ -408,7 +456,7 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_4::REF_9",
+                "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_4::REF_12",
                 "name" : "Transport/BLETransport.swift",
                 "path" : "Transport/BLETransport.swift",
                 "sourceTree" : "<group>",
@@ -416,7 +464,7 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_4::REF_10",
+                "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_4::REF_13",
                 "name" : "Transport/RelayTransport.swift",
                 "path" : "Transport/RelayTransport.swift",
                 "sourceTree" : "<group>",
@@ -424,7 +472,7 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_4::REF_11",
+                "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_4::REF_14",
                 "name" : "Wallet/AstralQRPayload.swift",
                 "path" : "Wallet/AstralQRPayload.swift",
                 "sourceTree" : "<group>",
@@ -432,7 +480,7 @@
               },
               {
                 "fileType" : "sourcecode.swift",
-                "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_4::REF_12",
+                "guid" : "PACKAGE:astralsdk::MAINGROUP::REF_4::REF_15",
                 "name" : "Wallet/AstralTransaction.swift",
                 "path" : "Wallet/AstralTransaction.swift",
                 "sourceTree" : "<group>",
@@ -458,15 +506,15 @@
       "projectIsPackage" : "true",
       "projectName" : "AstralSDK",
       "targets" : [
-        "17ebc91d1f2ae1164e5cf2b8ac4e32354257dfedb1412387ec66eca7a6c75121",
+        "d995dd477e27b615b2563963864309d2a5daa7b6d576952c0ea9ff5bf7a0004e",
         "abaa3eb3506b6c4cc425741ce65e9069c58ef67d7f53af982790624defb8bf4c",
         "b1e9f28dea7e7d958a490d91f39c89cd958b40ded001c64b2bf7eba0d7d986b3",
-        "54e312c6bc58ca59a689cd914f248b219464ff9e5330d6a54137054ac6072cd0",
-        "8a907150c544f347738e95823e60fba3ca559a52b01f217fc19415a431c743e1",
+        "b53b8703e677317dcf3a2527237c62c7e32564e3ec4887d13840e742dd7c8e3f",
+        "c70c3be1a8558ce824bbe2bdca0cff7cf3caca1e5d91b27edbeac66b62d40207",
         "d9bd6ea69d6b706ec2780ed8475c701fb7898fb1ae13d8fe72d658a7e495cf45"
       ]
     },
-    "signature" : "50f98aadcd688b634f4e24acdd64a87d6820448ba14b495bdcc7bdbc6dea8bdd",
+    "signature" : "648401627bbb0456b341ee6cba642e00eef67dd3903691de209aa7583ec53cfb",
     "type" : "project"
   },
   {
@@ -493,6 +541,22 @@
               "$(inherited)"
             ],
             "MACOSX_DEPLOYMENT_TARGET" : "13.0",
+            "OTHER_LDFLAGS" : [
+              "$(inherited)",
+              "-Xlinker",
+              "-rpath",
+              "-Xlinker",
+              "/Library/Developer/CommandLineTools/Library/Developer/Frameworks",
+              "-Xlinker",
+              "-rpath",
+              "-Xlinker",
+              "/Library/Developer/CommandLineTools/Library/Developer/usr/lib"
+            ],
+            "OTHER_SWIFT_FLAGS" : [
+              "$(inherited)",
+              "-load-resolved-plugin",
+              "/Library/Developer/CommandLineTools/usr/lib/swift/host/plugins/testing/libTestingMacros.dylib##TestingMacros"
+            ],
             "PACKAGE_RESOURCE_TARGET_KIND" : "regular",
             "PRODUCT_BUNDLE_IDENTIFIER" : "astralsdk.AstralSDKTests",
             "PRODUCT_MODULE_NAME" : "AstralSDKTests",
@@ -544,6 +608,22 @@
               "$(inherited)"
             ],
             "MACOSX_DEPLOYMENT_TARGET" : "13.0",
+            "OTHER_LDFLAGS" : [
+              "$(inherited)",
+              "-Xlinker",
+              "-rpath",
+              "-Xlinker",
+              "/Library/Developer/CommandLineTools/Library/Developer/Frameworks",
+              "-Xlinker",
+              "-rpath",
+              "-Xlinker",
+              "/Library/Developer/CommandLineTools/Library/Developer/usr/lib"
+            ],
+            "OTHER_SWIFT_FLAGS" : [
+              "$(inherited)",
+              "-load-resolved-plugin",
+              "/Library/Developer/CommandLineTools/usr/lib/swift/host/plugins/testing/libTestingMacros.dylib##TestingMacros"
+            ],
             "PACKAGE_RESOURCE_TARGET_KIND" : "regular",
             "PRODUCT_BUNDLE_IDENTIFIER" : "astralsdk.AstralSDKTests",
             "PRODUCT_MODULE_NAME" : "AstralSDKTests",
@@ -630,7 +710,7 @@
       "productTypeIdentifier" : "com.apple.product-type.bundle.unit-test",
       "type" : "standard"
     },
-    "signature" : "17ebc91d1f2ae1164e5cf2b8ac4e32354257dfedb1412387ec66eca7a6c75121",
+    "signature" : "d995dd477e27b615b2563963864309d2a5daa7b6d576952c0ea9ff5bf7a0004e",
     "type" : "target"
   },
   {
@@ -1072,6 +1152,33 @@
 
               ],
               "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:astralsdk::MAINGROUP::REF_3::REF_13",
+              "guid" : "PACKAGE-TARGET:AstralSDK::BUILDPHASE_0::13",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:astralsdk::MAINGROUP::REF_3::REF_14",
+              "guid" : "PACKAGE-TARGET:AstralSDK::BUILDPHASE_0::14",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:astralsdk::MAINGROUP::REF_3::REF_15",
+              "guid" : "PACKAGE-TARGET:AstralSDK::BUILDPHASE_0::15",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
             }
           ],
           "guid" : "PACKAGE-TARGET:AstralSDK::BUILDPHASE_0",
@@ -1098,7 +1205,7 @@
       "productTypeIdentifier" : "org.swift.product-type.library.static",
       "type" : "standard"
     },
-    "signature" : "54e312c6bc58ca59a689cd914f248b219464ff9e5330d6a54137054ac6072cd0",
+    "signature" : "b53b8703e677317dcf3a2527237c62c7e32564e3ec4887d13840e742dd7c8e3f",
     "type" : "target"
   },
   {
@@ -1386,6 +1493,33 @@
 
               ],
               "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:astralsdk::MAINGROUP::REF_4::REF_13",
+              "guid" : "PACKAGE-TARGET:AstralSDK-18750CCC6E44C952-dynamic::BUILDPHASE_0::13",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:astralsdk::MAINGROUP::REF_4::REF_14",
+              "guid" : "PACKAGE-TARGET:AstralSDK-18750CCC6E44C952-dynamic::BUILDPHASE_0::14",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
+            },
+            {
+              "codeSignOnCopy" : "false",
+              "fileReference" : "PACKAGE:astralsdk::MAINGROUP::REF_4::REF_15",
+              "guid" : "PACKAGE-TARGET:AstralSDK-18750CCC6E44C952-dynamic::BUILDPHASE_0::15",
+              "platformFilters" : [
+
+              ],
+              "removeHeadersOnCopy" : "false"
             }
           ],
           "guid" : "PACKAGE-TARGET:AstralSDK-18750CCC6E44C952-dynamic::BUILDPHASE_0",
@@ -1411,7 +1545,7 @@
       "productTypeIdentifier" : "com.apple.product-type.library.dynamic",
       "type" : "standard"
     },
-    "signature" : "8a907150c544f347738e95823e60fba3ca559a52b01f217fc19415a431c743e1",
+    "signature" : "c70c3be1a8558ce824bbe2bdca0cff7cf3caca1e5d91b27edbeac66b62d40207",
     "type" : "target"
   },
   {

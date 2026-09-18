@@ -18,7 +18,19 @@ let package = Package(
         .testTarget(
             name: "AstralSDKTests",
             dependencies: ["AstralSDK"],
-            path: "Tests/AstralSDKTests"
+            path: "Tests/AstralSDKTests",
+            swiftSettings: [
+                .unsafeFlags([
+                    "-load-resolved-plugin",
+                    "/Library/Developer/CommandLineTools/usr/lib/swift/host/plugins/testing/libTestingMacros.dylib##TestingMacros"
+                ])
+            ],
+            linkerSettings: [
+                .unsafeFlags([
+                    "-Xlinker", "-rpath", "-Xlinker", "/Library/Developer/CommandLineTools/Library/Developer/Frameworks",
+                    "-Xlinker", "-rpath", "-Xlinker", "/Library/Developer/CommandLineTools/Library/Developer/usr/lib"
+                ])
+            ]
         )
     ]
 )

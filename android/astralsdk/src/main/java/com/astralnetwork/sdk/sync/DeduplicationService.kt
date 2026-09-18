@@ -23,6 +23,13 @@ class DeduplicationService(config: AstralConfig = AstralConfig.DEFAULT) {
     private var lastRotation = System.currentTimeMillis()
 
     /**
+     * Check if a transaction ID (string) has been seen before.
+     */
+    fun isDuplicate(transactionId: String): Boolean {
+        return isDuplicate(transactionId.toByteArray(Charsets.UTF_8))
+    }
+
+    /**
      * Check if a transaction hash has been seen before.
      * @return true if DUPLICATE (double-spend), false if new.
      */
@@ -43,6 +50,20 @@ class DeduplicationService(config: AstralConfig = AstralConfig.DEFAULT) {
         // Insert into current filter
         hashes.forEach { currentFilter[it] = true }
         return false      // New transaction — accept
+    }
+
+    @Synchronized
+    fun forceRotate() {
+        previousFilter = currentFilter
+        currentFilter = BooleanArray(filterSize)
+        lastRotation = System.currentTimeMillis()
+    }
+
+    @Synchronized
+    fun reset() {
+        currentFilter = BooleanArray(filterSize)
+        previousFilter = BooleanArray(filterSize)
+        lastRotation = System.currentTimeMillis()
     }
 
     private fun rotateIfNeeded() {

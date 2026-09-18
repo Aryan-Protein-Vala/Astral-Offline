@@ -7,7 +7,7 @@ pub mod state;
 uniffi::setup_scaffolding!();
 
 use errors::AstralError;
-use framing::fragment::PacketFragmenter;
+use framing::fragment::{FrameChunk, PacketFragmenter, PacketReassembler};
 use state::vault::HardwareVault;
 use mesh::router::MeshRouter;
 use mesh::packet::MeshPacket;
@@ -124,16 +124,12 @@ impl AstralPaymentEngine {
             reason: "Engine not initialized — call register_adapters() first".into(),
         })?;
 
-        let encrypted_payload = r.handle_incoming_payload(raw_data)?;
+        let packet = r.handle_incoming_packet(raw_data)?;
 
-        if let Some(ciphertext) = encrypted_payload {
-            // Packet is for us — decrypt it
-            // The sender_pubkey is embedded in the MeshPacket header.
-            // We use our local keypair to derive the same shared secret.
-            // NOTE: In a real deployment, you'd parse the sender key from the packet.
-            // For now the decrypt call proves the AEAD tag, rejecting all tampered packets.
-            let sym_key = self.keypair.derive_symmetric_key(self.local_pubkey.clone())?;
-            let plaintext = decrypt_payload(sym_key, ciphertext)?;
+        if let Some(p) = packet {
+            // Packet is for us — decrypt it using sender's public key
+            let sym_key = self.keypair.derive_symmetric_key(p.sender_pubkey)?;
+            let plaintext = decrypt_payload(sym_key, p.encrypted_payload)?;
             return Ok(Some(plaintext));
         }
 
@@ -154,5 +150,14 @@ impl AstralPaymentEngine {
     /// MTU-aware fragmentation. Called by the platform transport layer.
     pub fn fragment_for_radio(&self, session_id: u16, payload: Vec<u8>, mtu: u32) -> Result<Vec<Vec<u8>>, AstralError> {
         PacketFragmenter::fragment(session_id, &payload, mtu as usize)
+    }
+
+    /// Reassembles raw frame chunks received from the platform transport layer into the original payload.
+    pub fn reassemble_from_radio(&self, chunks: Vec<Vec<u8>>) -> Result<Vec<u8>, AstralError> {
+        let mut parsed = Vec::with_capacity(chunks.len());
+        for c in &chunks {
+            parsed.push(FrameChunk::parse(c)?);
+        }
+        PacketReassembler::reassemble(&parsed)
     }
 }

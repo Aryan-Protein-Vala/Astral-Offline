@@ -21,20 +21,44 @@ import org.json.JSONObject
 data class AstralQRPayload(
     val walletID: WalletID,
     val ecdhPublicKeyBase64: String?,   // 65-byte X9.62 key, base64
-    val amountPaisa: Long? = null       // Optional fixed amount
+    val amountPaisa: Long? = null,      // Optional fixed amount
+    val relayEndpoint: String? = null
 ) {
+    val publicKey: String? get() = ecdhPublicKeyBase64
+    val amount: Int? get() = amountPaisa?.toInt()
+
     companion object {
         private const val VERSION = 2
 
         fun parse(qrString: String): AstralQRPayload? = try {
-            val json = JSONObject(qrString)
-            if (json.getInt("v") != VERSION) return null
-            AstralQRPayload(
-                walletID = WalletID(json.getString("id")),
-                ecdhPublicKeyBase64 = json.optString("pk").takeIf { it.isNotEmpty() },
-                amountPaisa = if (json.has("amt")) json.getLong("amt") else null
-            )
-        } catch (e: Exception) { null }
+            if (qrString.startsWith("astral://pay")) {
+                // Parse URL scheme
+                val uri = android.net.Uri.parse(qrString)
+                val id = uri.getQueryParameter("id") ?: return null
+                val pk = uri.getQueryParameter("pk")
+                val amt = uri.getQueryParameter("amount")?.toLongOrNull()
+                AstralQRPayload(
+                    walletID = WalletID(id),
+                    ecdhPublicKeyBase64 = pk,
+                    amountPaisa = amt
+                )
+            } else {
+                val json = JSONObject(qrString)
+                if (json.has("v") && json.getInt("v") != VERSION) return null
+                val id = if (json.has("id")) json.getString("id") else json.optString("wallet_id", "")
+                if (id.isEmpty()) return null
+                val pk = json.optString("pk").ifEmpty { json.optString("public_key") }.takeIf { it.isNotEmpty() }
+                val amt = if (json.has("amt")) json.getLong("amt") else if (json.has("amount")) json.getLong("amount") else null
+                AstralQRPayload(
+                    walletID = WalletID(id),
+                    ecdhPublicKeyBase64 = pk,
+                    amountPaisa = amt,
+                    relayEndpoint = json.optString("relay").takeIf { it.isNotEmpty() }
+                )
+            }
+        } catch (_: Exception) {
+            null
+        }
     }
 
     fun toJson(): String = JSONObject().apply {
@@ -42,7 +66,17 @@ data class AstralQRPayload(
         put("id", walletID.id)
         ecdhPublicKeyBase64?.let { put("pk", it) }
         amountPaisa?.let { put("amt", it) }
+        relayEndpoint?.let { put("relay", it) }
     }.toString()
+
+    fun toJSONString(): String = toJson()
+
+    fun toURLString(): String {
+        val base = "astral://pay?id=${walletID.id}"
+        val withPk = if (ecdhPublicKeyBase64 != null) "$base&pk=$ecdhPublicKeyBase64" else base
+        val withAmt = if (amountPaisa != null) "$withPk&amount=$amountPaisa" else withPk
+        return withAmt
+    }
 
     /** Returns the raw ECDH public key bytes (65 bytes, X9.62). */
     fun getEcdhPublicKeyBytes(): ByteArray? {

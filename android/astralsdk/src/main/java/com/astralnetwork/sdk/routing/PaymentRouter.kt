@@ -21,6 +21,10 @@ class PaymentRouter(private val config: AstralConfig = AstralConfig.DEFAULT) {
         this.transports = transports
     }
 
+    fun registerTransport(transport: AstralTransport) {
+        this.transports = this.transports + transport
+    }
+
     /**
      * Route encrypted packet via best transport.
      */

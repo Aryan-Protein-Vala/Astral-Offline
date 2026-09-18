@@ -6,26 +6,27 @@ import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import android.util.Base64
 import android.util.Log
+import com.astralnetwork.sdk.crypto.NoiseSession
+import com.astralnetwork.sdk.crypto.SignedTransaction
+import com.astralnetwork.sdk.wallet.AstralTransaction
 import java.security.*
 import java.security.interfaces.ECPublicKey
 import java.security.spec.ECGenParameterSpec
 import java.security.spec.PKCS8EncodedKeySpec
 import java.security.spec.X509EncodedKeySpec
+import javax.crypto.Cipher
+import javax.crypto.KeyGenerator
+import javax.crypto.SecretKey
+import javax.crypto.spec.GCMParameterSpec
 
 /**
- * KeyManager — 3-Layer Hardware-Backed P-256 Key Management.
+ * KeyManager — Hardware-Backed P-256 Key Management & Encrypted Key Storage.
  *
  * Security Architecture:
- *   Layer 1 — StrongBox (Titan M / embedded SE): Signing keypair generated inside
- *             a physically-separate security chip. Private key NEVER leaves.
- *   Layer 2 — TEE (Trusted Execution Environment): Automatic fallback if StrongBox
- *             is unavailable. Still hardware-isolated.
- *   Layer 3 — Software P-256 (for ECDH): Android Keystore PURPOSE_SIGN keys cannot
- *             do key agreement. A separate software keypair handles ECDH for the
- *             ChaCha20-Poly1305 encryption channel. Persisted encrypted in
- *             SharedPreferences (EncryptedSharedPreferences recommended for prod).
- *
- * This mirrors iOS KeyManager's Secure Enclave + CryptoKit split exactly.
+ *   - Signing Key: Hardware Keystore (StrongBox / TEE). Private key NEVER leaves hardware chip.
+ *   - Key Agreement: Software P-256 keypair for ECDH.
+ *   - Secure Storage: The ECDH private key is AES-256-GCM encrypted using an Android Keystore
+ *     master key before writing to SharedPreferences, preventing extraction even with allowBackup="true".
  */
 class KeyManager(private val useStrongBox: Boolean = true) {
 
@@ -33,9 +34,19 @@ class KeyManager(private val useStrongBox: Boolean = true) {
         private const val TAG = "AstralSDK/KeyManager"
         private const val KEYSTORE_PROVIDER = "AndroidKeyStore"
         private const val SIGNING_KEY_ALIAS = "astral_signing_key_v1"
+        private const val STORAGE_AES_ALIAS = "astral_ecdh_storage_aes_v1"
         private const val PREFS_NAME = "astral_sdk_keys_v1"
-        private const val PREF_ENC_PRIVATE = "ecdh_private_key"
+        private const val PREF_ENC_PRIVATE = "ecdh_private_key_encrypted"
         private const val PREF_ENC_PUBLIC = "ecdh_public_key"
+        private const val GCM_IV_SIZE = 12
+        private const val GCM_TAG_LENGTH = 128
+
+        /**
+         * Verifies a SignedTransaction using its embedded sender public key and signature.
+         */
+        fun verifyTransaction(signed: SignedTransaction): Boolean {
+            return signed.verify()
+        }
     }
 
     var walletID: WalletID? = null
@@ -44,14 +55,16 @@ class KeyManager(private val useStrongBox: Boolean = true) {
     var isHardwareBacked: Boolean = false
         private set
 
-    // true if key lives in StrongBox, false = TEE
     var isStrongBoxBacked: Boolean = false
         private set
+
+    val publicKeyBase64: String
+        get() = getEcdhPublicKeyX963()?.let { Base64.encodeToString(it, Base64.NO_WRAP) } ?: ""
 
     private var keyStore: KeyStore? = null
     private var prefs: SharedPreferences? = null
 
-    // Separate software keypair for ECDH (Keystore signing key cannot do ECDH)
+    // Separate software keypair for ECDH (Android Keystore PURPOSE_SIGN cannot do ECDH)
     private var ecdhKeyPair: KeyPair? = null
 
     // ── Initialization ─────────────────────────────────────────────────────────
@@ -63,7 +76,6 @@ class KeyManager(private val useStrongBox: Boolean = true) {
         if (keyStore?.containsAlias(SIGNING_KEY_ALIAS) == false) {
             generateSigningKey()
         } else {
-            // Check if existing key is StrongBox backed
             isHardwareBacked = true
         }
 
@@ -72,7 +84,7 @@ class KeyManager(private val useStrongBox: Boolean = true) {
             ?: throw IllegalStateException("Failed to read public key from Keystore")
         walletID = WalletID.fromPublicKey(pubKeyBytes)
 
-        // Load or generate the ECDH keypair (used for encryption, NOT signing)
+        // Load or generate the ECDH keypair with Keystore AES-GCM encrypted persistence
         loadOrGenerateEcdhKeyPair()
 
         Log.d(TAG, "Initialized — wallet: ${walletID?.short} | StrongBox: $isStrongBoxBacked | HW: $isHardwareBacked")
@@ -86,7 +98,7 @@ class KeyManager(private val useStrongBox: Boolean = true) {
             KEYSTORE_PROVIDER
         )
 
-        // Try StrongBox first — Titan M chip, physically isolated
+        // Try StrongBox first — Titan M / SE chip, physically isolated
         if (useStrongBox) {
             try {
                 val spec = KeyGenParameterSpec.Builder(
@@ -96,7 +108,7 @@ class KeyManager(private val useStrongBox: Boolean = true) {
                     .setAlgorithmParameterSpec(ECGenParameterSpec("secp256r1"))
                     .setDigests(KeyProperties.DIGEST_SHA256)
                     .setIsStrongBoxBacked(true)
-                    .setUserAuthenticationRequired(false) // App-level auth via PIN UI
+                    .setUserAuthenticationRequired(false)
                     .build()
 
                 kpg.initialize(spec)
@@ -110,7 +122,7 @@ class KeyManager(private val useStrongBox: Boolean = true) {
             }
         }
 
-        // Fallback: TEE (still hardware-isolated, cryptographic coprocessor)
+        // Fallback: TEE (hardware-isolated coprocessor)
         val teeSpec = KeyGenParameterSpec.Builder(
             SIGNING_KEY_ALIAS,
             KeyProperties.PURPOSE_SIGN or KeyProperties.PURPOSE_VERIFY
@@ -129,8 +141,7 @@ class KeyManager(private val useStrongBox: Boolean = true) {
 
     /**
      * Signs [data] using the hardware-backed Keystore key (ECDSA-P256-SHA256).
-     * The private key operation happens inside the secure element — the raw key bytes
-     * are never exposed to the JVM or application layer.
+     * The private key operation happens inside the hardware secure element.
      */
     fun sign(data: ByteArray): ByteArray {
         val ks = keyStore ?: error("KeyManager not initialized")
@@ -140,6 +151,11 @@ class KeyManager(private val useStrongBox: Boolean = true) {
             initSign(privateKey)
             update(data)
         }.sign()
+    }
+
+    fun signTransaction(txn: AstralTransaction): SignedTransaction {
+        val payload = txn.encode()
+        return SignedTransaction.sign(payload, this)
     }
 
     fun verifySignature(data: ByteArray, signature: ByteArray, signerPublicKey: PublicKey): Boolean {
@@ -159,58 +175,125 @@ class KeyManager(private val useStrongBox: Boolean = true) {
         return keyStore?.getCertificate(SIGNING_KEY_ALIAS)?.publicKey?.encoded
     }
 
+    /** Returns the raw PublicKey object for signing. */
     fun getSigningPublicKey(): PublicKey? {
         return keyStore?.getCertificate(SIGNING_KEY_ALIAS)?.publicKey
     }
 
-    // ── ECDH Keypair (Software P-256) ──────────────────────────────────────────
+    /** Returns the signing public key in X9.63 uncompressed format (65 bytes: 0x04 || X || Y). */
+    fun getSigningPublicKeyX963(): ByteArray? {
+        val pub = getSigningPublicKey() ?: return null
+        return NoiseSession.publicKeyToX963(pub)
+    }
+
+    // ── ECDH Keypair (Software P-256 with Hardware-Encrypted Storage) ──────────
 
     /**
-     * Returns the ECDH public key in X9.62 uncompressed format (0x04 || X || Y, 65 bytes).
-     * This is the key that gets embedded in QR codes for incoming payment channels.
-     * Compatible with iOS CryptoKit P256.KeyAgreement.PublicKey.
+     * Returns the ECDH public key in X9.63 uncompressed format (0x04 || X || Y, 65 bytes).
+     * Embedded in QR codes for incoming payment channels.
      */
     fun getEcdhPublicKeyX963(): ByteArray? {
         val pub = ecdhKeyPair?.public as? ECPublicKey ?: return null
-        val x = pub.w.affineX.toByteArray().let { if (it.size > 32) it.copyOfRange(1, 33) else it.padStart(32) }
-        val y = pub.w.affineY.toByteArray().let { if (it.size > 32) it.copyOfRange(1, 33) else it.padStart(32) }
-        return byteArrayOf(0x04) + x + y
+        return NoiseSession.publicKeyToX963(pub)
     }
 
     fun getEcdhPrivateKey(): PrivateKey? = ecdhKeyPair?.private
 
     fun getEcdhPublicKey(): PublicKey? = ecdhKeyPair?.public
 
+    // ── Keystore-Encrypted Private Key Storage ─────────────────────────────────
+
+    private fun getOrCreateStorageKey(): SecretKey {
+        val ks = keyStore ?: error("KeyStore not initialized")
+        if (!ks.containsAlias(STORAGE_AES_ALIAS)) {
+            val keyGenerator = KeyGenerator.getInstance(
+                KeyProperties.KEY_ALGORITHM_AES,
+                KEYSTORE_PROVIDER
+            )
+            val builder = KeyGenParameterSpec.Builder(
+                STORAGE_AES_ALIAS,
+                KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
+            )
+                .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
+                .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
+                .setKeySize(256)
+
+            if (useStrongBox) {
+                try {
+                    builder.setIsStrongBoxBacked(true)
+                    keyGenerator.init(builder.build())
+                    return keyGenerator.generateKey()
+                } catch (e: Exception) {
+                    Log.w(TAG, "StrongBox unavailable for storage key, falling back to standard TEE")
+                    builder.setIsStrongBoxBacked(false)
+                }
+            }
+
+            keyGenerator.init(builder.build())
+            return keyGenerator.generateKey()
+        }
+
+        val entry = ks.getEntry(STORAGE_AES_ALIAS, null) as KeyStore.SecretKeyEntry
+        return entry.secretKey
+    }
+
+    private fun encryptPrivateKey(privKeyBytes: ByteArray): String {
+        val secretKey = getOrCreateStorageKey()
+        val cipher = Cipher.getInstance("AES/GCM/NoPadding")
+        cipher.init(Cipher.ENCRYPT_MODE, secretKey)
+        val iv = cipher.iv
+        val ciphertext = cipher.doFinal(privKeyBytes)
+        val combined = iv + ciphertext
+        return Base64.encodeToString(combined, Base64.NO_WRAP)
+    }
+
+    private fun decryptPrivateKey(encodedData: String): ByteArray {
+        val combined = Base64.decode(encodedData, Base64.NO_WRAP)
+        require(combined.size > GCM_IV_SIZE) { "Encrypted data too short" }
+        val iv = combined.copyOfRange(0, GCM_IV_SIZE)
+        val ciphertext = combined.copyOfRange(GCM_IV_SIZE, combined.size)
+
+        val secretKey = getOrCreateStorageKey()
+        val cipher = Cipher.getInstance("AES/GCM/NoPadding")
+        val spec = GCMParameterSpec(GCM_TAG_LENGTH, iv)
+        cipher.init(Cipher.DECRYPT_MODE, secretKey, spec)
+        return cipher.doFinal(ciphertext)
+    }
+
     private fun loadOrGenerateEcdhKeyPair() {
-        val savedPriv = prefs?.getString(PREF_ENC_PRIVATE, null)
+        val savedEncryptedPriv = prefs?.getString(PREF_ENC_PRIVATE, null)
         val savedPub = prefs?.getString(PREF_ENC_PUBLIC, null)
 
-        if (savedPriv != null && savedPub != null) {
+        if (savedEncryptedPriv != null && savedPub != null) {
             try {
+                val decryptedPrivBytes = decryptPrivateKey(savedEncryptedPriv)
                 val keyFactory = KeyFactory.getInstance("EC")
-                val priv = keyFactory.generatePrivate(PKCS8EncodedKeySpec(Base64.decode(savedPriv, Base64.NO_WRAP)))
+                val priv = keyFactory.generatePrivate(PKCS8EncodedKeySpec(decryptedPrivBytes))
                 val pub = keyFactory.generatePublic(X509EncodedKeySpec(Base64.decode(savedPub, Base64.NO_WRAP)))
                 ecdhKeyPair = KeyPair(pub, priv)
-                Log.d(TAG, "ECDH keypair loaded from storage ✅")
+                Log.d(TAG, "ECDH keypair decrypted and loaded from secure Keystore storage ✅")
                 return
             } catch (e: Exception) {
-                Log.w(TAG, "Could not load ECDH keypair, regenerating: ${e.message}")
+                Log.w(TAG, "Could not load secured ECDH keypair, regenerating: ${e.message}")
             }
         }
 
+        // Generate fresh EC keypair
         val kpg = KeyPairGenerator.getInstance("EC")
         kpg.initialize(ECGenParameterSpec("secp256r1"))
-        ecdhKeyPair = kpg.generateKeyPair()
+        val newKeyPair = kpg.generateKeyPair()
+        ecdhKeyPair = newKeyPair
 
-        prefs?.edit()
-            ?.putString(PREF_ENC_PRIVATE, Base64.encodeToString(ecdhKeyPair!!.private.encoded, Base64.NO_WRAP))
-            ?.putString(PREF_ENC_PUBLIC, Base64.encodeToString(ecdhKeyPair!!.public.encoded, Base64.NO_WRAP))
-            ?.apply()
-
-        Log.d(TAG, "ECDH keypair generated and persisted (software P-256)")
-    }
-
-    private fun ByteArray.padStart(size: Int): ByteArray {
-        return if (this.size < size) ByteArray(size - this.size) + this else this
+        try {
+            // Encrypt private key with Keystore AES-256-GCM before saving
+            val encryptedPriv = encryptPrivateKey(newKeyPair.private.encoded)
+            prefs?.edit()
+                ?.putString(PREF_ENC_PRIVATE, encryptedPriv)
+                ?.putString(PREF_ENC_PUBLIC, Base64.encodeToString(newKeyPair.public.encoded, Base64.NO_WRAP))
+                ?.apply()
+            Log.d(TAG, "ECDH keypair generated and saved with Keystore AES-GCM encryption ✅")
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to securely persist ECDH keypair", e)
+        }
     }
 }

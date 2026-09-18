@@ -20,8 +20,9 @@ clean:
 	@echo "Cleaning Build Artifacts..."
 	cargo clean
 	rm -rf target/
-	rm -rf ../ios/AstralCoreFramework/
+	rm -rf ../ios_app/AstralCoreFramework/
 	rm -rf ../android/astralsdk/src/main/jniLibs/
+	rm -rf ../android/astralsdk/src/main/java/uniffi/
 
 publish:
 	@echo "Publishing to Crates.io..."
