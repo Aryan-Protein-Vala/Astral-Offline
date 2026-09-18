@@ -127,6 +127,7 @@ dependencies = [
  "parking_lot",
  "rand_core",
  "serde",
+ "serde_json",
  "thiserror",
  "uniffi",
  "zeroize",

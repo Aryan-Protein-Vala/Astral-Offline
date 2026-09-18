@@ -1,0 +1,373 @@
+[
+  {
+    "isFramework" : true,
+    "moduleName" : "Combine",
+    "modulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/Combine-53PPUTK3H1C2.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "CoreFoundation",
+    "modulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/CoreFoundation-1EB41WNVHCFDG.swiftmodule"
+  },
+  {
+    "isFramework" : true,
+    "moduleName" : "CryptoKit",
+    "modulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/CryptoKit-2TKY8D7M16F15.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "Darwin",
+    "modulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/Darwin-15LIITZA6O3P4.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "Dispatch",
+    "modulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/Dispatch-1F2DZWTQIUF6Y.swiftmodule"
+  },
+  {
+    "isFramework" : true,
+    "moduleName" : "Foundation",
+    "modulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/Foundation-TXBUNUBLT0KS.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "IOKit",
+    "modulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/IOKit-2D3OC33C7AH46.swiftmodule"
+  },
+  {
+    "isFramework" : true,
+    "moduleName" : "LocalAuthentication",
+    "modulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/LocalAuthentication-3URJ52H25JIZY.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "ObjectiveC",
+    "modulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/ObjectiveC-38GV06X5I87NG.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "Observation",
+    "modulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/Observation-2F8TNQTHFA45.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "Swift",
+    "modulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/Swift-2ZX9T5MBRJPJW.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "SwiftOnoneSupport",
+    "modulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/SwiftOnoneSupport-15KDG7I1AAV8V.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "System",
+    "modulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/System-3TFKUBP27O798.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "XPC",
+    "modulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/XPC-2GS0QCDPW80SG.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "_Builtin_float",
+    "modulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/_Builtin_float-4O0QXZ5WKBGH.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "_Concurrency",
+    "modulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/_Concurrency-4N14M4U4IGBU.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "_DarwinFoundation1",
+    "modulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/_DarwinFoundation1-32WUSCDFN615S.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "_DarwinFoundation2",
+    "modulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/_DarwinFoundation2-3DX6GA9FQ8KO7.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "_DarwinFoundation3",
+    "modulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/_DarwinFoundation3-2ZFVLBPFDDH26.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "_StringProcessing",
+    "modulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/_StringProcessing-2DDSAZ8HV0BUN.swiftmodule"
+  },
+  {
+    "isFramework" : false,
+    "moduleName" : "os",
+    "modulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/os-JSUJANDWV7LD.swiftmodule"
+  },
+  {
+    "clangModuleMapPath" : "\/Library\/Developer\/CommandLineTools\/SDKs\/MacOSX27.0.sdk\/System\/Library\/Frameworks\/CFNetwork.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/CFNetwork-6BIPKJXKQXN9N8QX1IO7N8E2N.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "CFNetwork"
+  },
+  {
+    "clangModuleMapPath" : "\/Library\/Developer\/CommandLineTools\/SDKs\/MacOSX27.0.sdk\/System\/Library\/Frameworks\/CoreBluetooth.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/CoreBluetooth-7521LNOM0FNUE7V9C2WQSGVXN.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "CoreBluetooth"
+  },
+  {
+    "clangModuleMapPath" : "\/Library\/Developer\/CommandLineTools\/SDKs\/MacOSX27.0.sdk\/System\/Library\/Frameworks\/CoreFoundation.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/CoreFoundation-WJL3K1PR6KMHOWHDWQTXUJ5H.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "CoreFoundation"
+  },
+  {
+    "clangModuleMapPath" : "\/Library\/Developer\/CommandLineTools\/SDKs\/MacOSX27.0.sdk\/System\/Library\/Frameworks\/CoreServices.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/CoreServices-1I6830FBJZPCCMJRGD0L8OFH1.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "CoreServices"
+  },
+  {
+    "clangModuleMapPath" : "\/Library\/Developer\/CommandLineTools\/SDKs\/MacOSX27.0.sdk\/usr\/include\/Darwin.modulemap",
+    "clangModulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/Darwin-684GDEWV2PTAACQFKQOWG4AD1.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "Darwin"
+  },
+  {
+    "clangModuleMapPath" : "\/Library\/Developer\/CommandLineTools\/SDKs\/MacOSX27.0.sdk\/System\/Library\/Frameworks\/DiskArbitration.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/DiskArbitration-3SGWEGHIQIEVFMMCPZ03GRN1Y.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "DiskArbitration"
+  },
+  {
+    "clangModuleMapPath" : "\/Library\/Developer\/CommandLineTools\/SDKs\/MacOSX27.0.sdk\/usr\/include\/dispatch.modulemap",
+    "clangModulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/Dispatch-1BX0K2OKVOFMY3JHW63HQQ65U.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "Dispatch"
+  },
+  {
+    "clangModuleMapPath" : "\/Library\/Developer\/CommandLineTools\/SDKs\/MacOSX27.0.sdk\/System\/Library\/Frameworks\/Foundation.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/Foundation-2RN19JSJ3YOZ4QMWAK14VGZCM.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "Foundation"
+  },
+  {
+    "clangModuleMapPath" : "\/Library\/Developer\/CommandLineTools\/SDKs\/MacOSX27.0.sdk\/System\/Library\/Frameworks\/IOKit.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/IOKit-87N5VEVJOH6CJNOX37YQPPG1E.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "IOKit"
+  },
+  {
+    "clangModuleMapPath" : "\/Library\/Developer\/CommandLineTools\/SDKs\/MacOSX27.0.sdk\/System\/Library\/Frameworks\/LocalAuthentication.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/LocalAuthentication-80XA65N6136T4SG5VHV3BKRO1.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "LocalAuthentication"
+  },
+  {
+    "clangModuleMapPath" : "\/Library\/Developer\/CommandLineTools\/SDKs\/MacOSX27.0.sdk\/usr\/include\/DarwinBasic.modulemap",
+    "clangModulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/MachO-C3UUN819KOMQJ6JAFHQLCRXIZ.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "MachO"
+  },
+  {
+    "clangModuleMapPath" : "\/Library\/Developer\/CommandLineTools\/SDKs\/MacOSX27.0.sdk\/usr\/include\/ObjectiveC.modulemap",
+    "clangModulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/ObjectiveC-AXXUGOW6B4DAS9OR5UZOU0F6C.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "ObjectiveC"
+  },
+  {
+    "clangModuleMapPath" : "\/Library\/Developer\/CommandLineTools\/SDKs\/MacOSX27.0.sdk\/System\/Library\/Frameworks\/Security.framework\/Modules\/module.modulemap",
+    "clangModulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/Security-265I3UZEIPZZKXNNU3LYXF0ET.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "Security"
+  },
+  {
+    "clangModuleMapPath" : "\/Library\/Developer\/CommandLineTools\/SDKs\/MacOSX27.0.sdk\/usr\/lib\/swift\/shims\/module.modulemap",
+    "clangModulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/SwiftShims-AVVSXIUH8SHAYBT98QKU3667Y.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "SwiftShims"
+  },
+  {
+    "clangModuleMapPath" : "\/Library\/Developer\/CommandLineTools\/SDKs\/MacOSX27.0.sdk\/usr\/include\/xpc.modulemap",
+    "clangModulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/XPC-EYLI1HQ7Q7946MVGK5L0QHSS5.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "XPC"
+  },
+  {
+    "clangModuleMapPath" : "\/Library\/Developer\/CommandLineTools\/SDKs\/MacOSX27.0.sdk\/usr\/include\/DarwinFoundation1.modulemap",
+    "clangModulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/_AvailabilityInternal-2ZVBJJXJ6QHZ2OM9I2VX61N5D.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "_AvailabilityInternal"
+  },
+  {
+    "clangModuleMapPath" : "\/Library\/Developer\/CommandLineTools\/usr\/lib\/clang\/21\/include\/module.modulemap",
+    "clangModulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/_Builtin_float-9OZC75HOF1GUO1WJ11TUM5FHV.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "_Builtin_float"
+  },
+  {
+    "clangModuleMapPath" : "\/Library\/Developer\/CommandLineTools\/usr\/lib\/clang\/21\/include\/module.modulemap",
+    "clangModulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/_Builtin_inttypes-39MIHWQDG6M99GWMY2CFOQSAG.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "_Builtin_inttypes"
+  },
+  {
+    "clangModuleMapPath" : "\/Library\/Developer\/CommandLineTools\/usr\/lib\/clang\/21\/include\/module.modulemap",
+    "clangModulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/_Builtin_limits-B6NHWZQBJPCD4JDRVMSG7KKGW.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "_Builtin_limits"
+  },
+  {
+    "clangModuleMapPath" : "\/Library\/Developer\/CommandLineTools\/usr\/lib\/clang\/21\/include\/module.modulemap",
+    "clangModulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/_Builtin_stdarg-5N51GIMDO763M2329N9465XCD.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "_Builtin_stdarg"
+  },
+  {
+    "clangModuleMapPath" : "\/Library\/Developer\/CommandLineTools\/usr\/lib\/clang\/21\/include\/module.modulemap",
+    "clangModulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/_Builtin_stdatomic-3BBTKB1DQAX9S6LI1MYVS1B2S.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "_Builtin_stdatomic"
+  },
+  {
+    "clangModuleMapPath" : "\/Library\/Developer\/CommandLineTools\/usr\/lib\/clang\/21\/include\/module.modulemap",
+    "clangModulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/_Builtin_stdbool-DQ1T3GIZ23KG6OFP5YCROB3XV.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "_Builtin_stdbool"
+  },
+  {
+    "clangModuleMapPath" : "\/Library\/Developer\/CommandLineTools\/usr\/lib\/clang\/21\/include\/module.modulemap",
+    "clangModulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/_Builtin_stddef-2UOD1I9E7LJS4OVLRORWOTA7J.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "_Builtin_stddef"
+  },
+  {
+    "clangModuleMapPath" : "\/Library\/Developer\/CommandLineTools\/usr\/lib\/clang\/21\/include\/module.modulemap",
+    "clangModulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/_Builtin_stdint-EOX4SECENXR9V8SBLAL93Y0AD.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "_Builtin_stdint"
+  },
+  {
+    "clangModuleMapPath" : "\/Library\/Developer\/CommandLineTools\/SDKs\/MacOSX27.0.sdk\/usr\/include\/DarwinFoundation1.modulemap",
+    "clangModulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/_DarwinFoundation1-AEXR0NUJJT8XME9MMQ60DU32I.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "_DarwinFoundation1"
+  },
+  {
+    "clangModuleMapPath" : "\/Library\/Developer\/CommandLineTools\/SDKs\/MacOSX27.0.sdk\/usr\/include\/DarwinFoundation2.modulemap",
+    "clangModulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/_DarwinFoundation2-5AV1EB9HV9KL027X1AIY7O8FN.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "_DarwinFoundation2"
+  },
+  {
+    "clangModuleMapPath" : "\/Library\/Developer\/CommandLineTools\/SDKs\/MacOSX27.0.sdk\/usr\/include\/DarwinFoundation3.modulemap",
+    "clangModulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/_DarwinFoundation3-6VFZWS1VLJLMX8VU23C1H47IQ.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "_DarwinFoundation3"
+  },
+  {
+    "clangModuleMapPath" : "\/Library\/Developer\/CommandLineTools\/SDKs\/MacOSX27.0.sdk\/usr\/lib\/swift\/shims\/module.modulemap",
+    "clangModulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/_SwiftConcurrencyShims-6LF1VLJBD5K1LXG52D7A3CSDH.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "_SwiftConcurrencyShims"
+  },
+  {
+    "clangModuleMapPath" : "\/Library\/Developer\/CommandLineTools\/SDKs\/MacOSX27.0.sdk\/usr\/include\/launch.modulemap",
+    "clangModulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/launch-B1634P9LNHWLF8CQ617NF2L5S.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "launch"
+  },
+  {
+    "clangModuleMapPath" : "\/Library\/Developer\/CommandLineTools\/SDKs\/MacOSX27.0.sdk\/usr\/include\/libDER\/module.modulemap",
+    "clangModulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/libDER-BCC1KVZM6G400Z0AG9I5PXFRP.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "libDER"
+  },
+  {
+    "clangModuleMapPath" : "\/Library\/Developer\/CommandLineTools\/SDKs\/MacOSX27.0.sdk\/usr\/include\/libkern.modulemap",
+    "clangModulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/libkern-CH1HZK3VKQJDQGD6QS8X3IX4M.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "libkern"
+  },
+  {
+    "clangModuleMapPath" : "\/Library\/Developer\/CommandLineTools\/SDKs\/MacOSX27.0.sdk\/usr\/include\/os.modulemap",
+    "clangModulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/os-9WHZS72RQRCBLVXH61MEDDJY7.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "os"
+  },
+  {
+    "clangModuleMapPath" : "\/Library\/Developer\/CommandLineTools\/SDKs\/MacOSX27.0.sdk\/usr\/include\/os.modulemap",
+    "clangModulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/os_object-CDF7R8E4424WOGHTDWNOBFCG0.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "os_object"
+  },
+  {
+    "clangModuleMapPath" : "\/Library\/Developer\/CommandLineTools\/SDKs\/MacOSX27.0.sdk\/usr\/include\/os.modulemap",
+    "clangModulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/os_workgroup-5PC0ECMYQUJ97D1X2RK9ZRHQA.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "os_workgroup"
+  },
+  {
+    "clangModuleMapPath" : "\/Library\/Developer\/CommandLineTools\/usr\/lib\/clang\/21\/include\/module.modulemap",
+    "clangModulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/ptrauth-C7ZUQOSGV7NE6RQ7V3NAUQRFT.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "ptrauth"
+  },
+  {
+    "clangModuleMapPath" : "\/Library\/Developer\/CommandLineTools\/usr\/lib\/clang\/21\/include\/module.modulemap",
+    "clangModulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/ptrcheck-ETK5PI75HSHDBT3LXWK3SF9V4.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "ptrcheck"
+  },
+  {
+    "clangModuleMapPath" : "\/Library\/Developer\/CommandLineTools\/SDKs\/MacOSX27.0.sdk\/usr\/include\/c_standard_library.modulemap",
+    "clangModulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/string_h-F0FELBCAX3D0DT556QJCF3N89.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "string_h"
+  },
+  {
+    "clangModuleMapPath" : "\/Library\/Developer\/CommandLineTools\/SDKs\/MacOSX27.0.sdk\/usr\/include\/DarwinFoundation2.modulemap",
+    "clangModulePath" : "\/Users\/aryansharma\/Desktop\/Top Secret\/Astral-Network-V2\/AstralSDK\/.build\/out\/SDKExplicitPrecompiledModules\/sys_types-F0MPVSAQIIG56MKZ6QJXT3ZNP.pcm",
+    "isBridgingHeaderDependency" : false,
+    "isFramework" : false,
+    "moduleName" : "sys_types"
+  }
+]

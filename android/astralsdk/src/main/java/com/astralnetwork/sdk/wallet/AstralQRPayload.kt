@@ -1,108 +1,51 @@
 package com.astralnetwork.sdk.wallet
 
+import android.util.Base64
 import com.astralnetwork.sdk.identity.WalletID
 import org.json.JSONObject
 
 /**
- * AstralQRPayload — data encoded in merchant QR codes.
- * Includes wallet ID and public key for encrypted payments.
+ * AstralQRPayload — what gets embedded in a QR code for payment initiation.
  *
- * CROSS-PLATFORM FORMAT (must match iOS AstralQRPayload.swift):
+ * Contains:
+ *  - walletID: for routing / display
+ *  - ecdhPublicKey: the X9.62 ECDH key the payer uses to encrypt the payment
+ *  - amount (optional): pre-set amount for fixed-price requests
  *
- * JSON format:
- *   {"type":"astral_pay","id":"<wallet_id>","pk":"<base64_pubkey>","v":1}
+ * JSON format (compact, cross-platform compatible with iOS):
+ *   {"v":2,"id":"<wallet_id>","pk":"<base64_ecdh_pubkey>","amt":5000}
  *
- * URL format:
- *   astral://pay?id=<wallet_id>&pk=<base64_pubkey>&amount=<paisa>&relay=<url>
+ * The `pk` field is a base64-encoded 65-byte X9.62 uncompressed public key.
+ * Cross-platform with iOS CryptoKit P256.KeyAgreement.PublicKey.
  */
 data class AstralQRPayload(
-    val type: String = "astral_pay",
     val walletID: WalletID,
-    val publicKey: String? = null,      // Base64 encoded X.509 public key
-    val amount: Int? = null,            // Pre-filled amount (paisa), optional
-    val relayEndpoint: String? = null   // For server-assisted delivery
+    val ecdhPublicKeyBase64: String?,   // 65-byte X9.62 key, base64
+    val amountPaisa: Long? = null       // Optional fixed amount
 ) {
-    /**
-     * Serialize to JSON string for QR code encoding.
-     * Keys MUST match iOS: "type", "id", "pk", "v", "amount", "relay"
-     */
-    fun toJSONString(): String {
-        return JSONObject().apply {
-            put("type", type)
-            put("id", walletID.id)        // ← was "wallet_id", must be "id" to match iOS
-            publicKey?.let { put("pk", it) }  // ← was "public_key", must be "pk" to match iOS
-            put("v", 1)
-            amount?.let { put("amount", it) }
-            relayEndpoint?.let { put("relay", it) }
-        }.toString()
-    }
-
-    /**
-     * Encode as astral:// URL string (for printed QR codes).
-     * Params MUST match iOS: id, pk, amount, relay
-     */
-    fun toURLString(): String {
-        val sb = StringBuilder("astral://pay?id=${walletID.id}")
-        publicKey?.let { sb.append("&pk=$it") }
-        amount?.let { sb.append("&amount=$it") }
-        relayEndpoint?.let { sb.append("&relay=$it") }
-        return sb.toString()
-    }
-
     companion object {
-        /**
-         * Parse from scanned QR code string.
-         * Accepts BOTH iOS and Android key formats for backwards compatibility.
-         */
-        fun parse(from: String): AstralQRPayload? {
-            // Try JSON format first
-            try {
-                val json = JSONObject(from)
-                val type = json.optString("type", "")
-                if (type == "astral_pay" || type == "astral_wallet") {
-                    // Accept both iOS keys ("id","pk") and legacy Android keys ("wallet_id","public_key")
-                    val id = json.optString("id",
-                             json.optString("wallet_id",
-                             json.optString("pub_key", "")))
-                    val pk = json.optString("pk",
-                             json.optString("public_key", null))
+        private const val VERSION = 2
 
-                    if (id.isNotEmpty()) {
-                        return AstralQRPayload(
-                            type = type,
-                            walletID = WalletID(id),
-                            publicKey = pk,
-                            amount = if (json.has("amount")) json.getInt("amount") else null,
-                            relayEndpoint = json.optString("relay", null)
-                        )
-                    }
-                }
-            } catch (_: Exception) {}
+        fun parse(qrString: String): AstralQRPayload? = try {
+            val json = JSONObject(qrString)
+            if (json.getInt("v") != VERSION) return null
+            AstralQRPayload(
+                walletID = WalletID(json.getString("id")),
+                ecdhPublicKeyBase64 = json.optString("pk").takeIf { it.isNotEmpty() },
+                amountPaisa = if (json.has("amt")) json.getLong("amt") else null
+            )
+        } catch (e: Exception) { null }
+    }
 
-            // Try URL format: astral://pay?id=...&pk=...
-            if (from.startsWith("astral://pay")) {
-                val queryString = from.substringAfter("?", "")
-                if (queryString.isEmpty()) return null
+    fun toJson(): String = JSONObject().apply {
+        put("v", VERSION)
+        put("id", walletID.id)
+        ecdhPublicKeyBase64?.let { put("pk", it) }
+        amountPaisa?.let { put("amt", it) }
+    }.toString()
 
-                val params = mutableMapOf<String, String>()
-                for (part in queryString.split("&")) {
-                    val kv = part.split("=", limit = 2)
-                    if (kv.size == 2) params[kv[0]] = kv[1]
-                }
-
-                // Accept both iOS params (id, pk) and legacy (wallet, pub)
-                val id = params["id"] ?: params["wallet"] ?: return null
-                val pk = params["pk"] ?: params["pub"]
-
-                return AstralQRPayload(
-                    walletID = WalletID(id),
-                    publicKey = pk,
-                    amount = params["amount"]?.toIntOrNull(),
-                    relayEndpoint = params["relay"]
-                )
-            }
-
-            return null
-        }
+    /** Returns the raw ECDH public key bytes (65 bytes, X9.62). */
+    fun getEcdhPublicKeyBytes(): ByteArray? {
+        return ecdhPublicKeyBase64?.let { Base64.decode(it, Base64.NO_WRAP) }
     }
 }

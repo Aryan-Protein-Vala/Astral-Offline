@@ -1,0 +1,7 @@
+Target dependency graph (3 targets)
+Target 'AllExcludingTests' in project 'Aggregate'
+➜ Explicit dependency on target 'AstralSDK-product' in project 'AstralSDK'
+➜ Explicit dependency on target 'AstralSDK' in project 'AstralSDK'
+Target 'AstralSDK-product' in project 'AstralSDK'
+➜ Explicit dependency on target 'AstralSDK' in project 'AstralSDK'
+Target 'AstralSDK' in project 'AstralSDK' (no dependencies)

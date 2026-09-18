@@ -1,0 +1,139 @@
+{
+  "" : {
+    "diagnostics" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralSDK-primary.dia",
+    "emit-module-dependencies" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralSDK-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralSDK-primary-emit-module.dia",
+    "pch" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralSDK-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralSDK-primary.swiftdeps"
+  },
+  "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/Sources/AstralSDK/Core/AstralConfig.swift" : {
+    "const-values" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralConfig.swiftconstvalues",
+    "dependencies" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralConfig.d",
+    "diagnostics" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralConfig.dia",
+    "index-unit-output-path" : "/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralConfig.o",
+    "llvm-bc" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralConfig.bc",
+    "object" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralConfig.o",
+    "swift-dependencies" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralConfig.swiftdeps",
+    "swiftmodule" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralConfig~partial.swiftmodule"
+  },
+  "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/Sources/AstralSDK/Core/AstralError.swift" : {
+    "const-values" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralError.swiftconstvalues",
+    "dependencies" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralError.d",
+    "diagnostics" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralError.dia",
+    "index-unit-output-path" : "/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralError.o",
+    "llvm-bc" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralError.bc",
+    "object" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralError.o",
+    "swift-dependencies" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralError.swiftdeps",
+    "swiftmodule" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralError~partial.swiftmodule"
+  },
+  "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/Sources/AstralSDK/Core/AstralSDK.swift" : {
+    "const-values" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralSDK.swiftconstvalues",
+    "dependencies" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralSDK.d",
+    "diagnostics" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralSDK.dia",
+    "index-unit-output-path" : "/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralSDK.o",
+    "llvm-bc" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralSDK.bc",
+    "object" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralSDK.o",
+    "swift-dependencies" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralSDK.swiftdeps",
+    "swiftmodule" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralSDK~partial.swiftmodule"
+  },
+  "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/Sources/AstralSDK/Identity/KeyManager.swift" : {
+    "const-values" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/KeyManager.swiftconstvalues",
+    "dependencies" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/KeyManager.d",
+    "diagnostics" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/KeyManager.dia",
+    "index-unit-output-path" : "/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/KeyManager.o",
+    "llvm-bc" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/KeyManager.bc",
+    "object" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/KeyManager.o",
+    "swift-dependencies" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/KeyManager.swiftdeps",
+    "swiftmodule" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/KeyManager~partial.swiftmodule"
+  },
+  "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/Sources/AstralSDK/Identity/WalletID.swift" : {
+    "const-values" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/WalletID.swiftconstvalues",
+    "dependencies" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/WalletID.d",
+    "diagnostics" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/WalletID.dia",
+    "index-unit-output-path" : "/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/WalletID.o",
+    "llvm-bc" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/WalletID.bc",
+    "object" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/WalletID.o",
+    "swift-dependencies" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/WalletID.swiftdeps",
+    "swiftmodule" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/WalletID~partial.swiftmodule"
+  },
+  "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/Sources/AstralSDK/Protocol/AstralPacket.swift" : {
+    "const-values" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralPacket.swiftconstvalues",
+    "dependencies" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralPacket.d",
+    "diagnostics" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralPacket.dia",
+    "index-unit-output-path" : "/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralPacket.o",
+    "llvm-bc" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralPacket.bc",
+    "object" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralPacket.o",
+    "swift-dependencies" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralPacket.swiftdeps",
+    "swiftmodule" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralPacket~partial.swiftmodule"
+  },
+  "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/Sources/AstralSDK/Routing/PaymentRouter.swift" : {
+    "const-values" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/PaymentRouter.swiftconstvalues",
+    "dependencies" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/PaymentRouter.d",
+    "diagnostics" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/PaymentRouter.dia",
+    "index-unit-output-path" : "/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/PaymentRouter.o",
+    "llvm-bc" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/PaymentRouter.bc",
+    "object" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/PaymentRouter.o",
+    "swift-dependencies" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/PaymentRouter.swiftdeps",
+    "swiftmodule" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/PaymentRouter~partial.swiftmodule"
+  },
+  "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/Sources/AstralSDK/Sync/DeduplicationService.swift" : {
+    "const-values" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/DeduplicationService.swiftconstvalues",
+    "dependencies" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/DeduplicationService.d",
+    "diagnostics" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/DeduplicationService.dia",
+    "index-unit-output-path" : "/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/DeduplicationService.o",
+    "llvm-bc" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/DeduplicationService.bc",
+    "object" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/DeduplicationService.o",
+    "swift-dependencies" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/DeduplicationService.swiftdeps",
+    "swiftmodule" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/DeduplicationService~partial.swiftmodule"
+  },
+  "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/Sources/AstralSDK/Transport/AstralTransport.swift" : {
+    "const-values" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralTransport.swiftconstvalues",
+    "dependencies" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralTransport.d",
+    "diagnostics" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralTransport.dia",
+    "index-unit-output-path" : "/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralTransport.o",
+    "llvm-bc" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralTransport.bc",
+    "object" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralTransport.o",
+    "swift-dependencies" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralTransport.swiftdeps",
+    "swiftmodule" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralTransport~partial.swiftmodule"
+  },
+  "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/Sources/AstralSDK/Transport/BLETransport.swift" : {
+    "const-values" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/BLETransport.swiftconstvalues",
+    "dependencies" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/BLETransport.d",
+    "diagnostics" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/BLETransport.dia",
+    "index-unit-output-path" : "/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/BLETransport.o",
+    "llvm-bc" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/BLETransport.bc",
+    "object" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/BLETransport.o",
+    "swift-dependencies" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/BLETransport.swiftdeps",
+    "swiftmodule" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/BLETransport~partial.swiftmodule"
+  },
+  "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/Sources/AstralSDK/Transport/RelayTransport.swift" : {
+    "const-values" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/RelayTransport.swiftconstvalues",
+    "dependencies" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/RelayTransport.d",
+    "diagnostics" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/RelayTransport.dia",
+    "index-unit-output-path" : "/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/RelayTransport.o",
+    "llvm-bc" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/RelayTransport.bc",
+    "object" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/RelayTransport.o",
+    "swift-dependencies" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/RelayTransport.swiftdeps",
+    "swiftmodule" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/RelayTransport~partial.swiftmodule"
+  },
+  "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/Sources/AstralSDK/Wallet/AstralQRPayload.swift" : {
+    "const-values" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralQRPayload.swiftconstvalues",
+    "dependencies" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralQRPayload.d",
+    "diagnostics" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralQRPayload.dia",
+    "index-unit-output-path" : "/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralQRPayload.o",
+    "llvm-bc" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralQRPayload.bc",
+    "object" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralQRPayload.o",
+    "swift-dependencies" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralQRPayload.swiftdeps",
+    "swiftmodule" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralQRPayload~partial.swiftmodule"
+  },
+  "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/Sources/AstralSDK/Wallet/AstralTransaction.swift" : {
+    "const-values" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralTransaction.swiftconstvalues",
+    "dependencies" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralTransaction.d",
+    "diagnostics" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralTransaction.dia",
+    "index-unit-output-path" : "/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralTransaction.o",
+    "llvm-bc" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralTransaction.bc",
+    "object" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralTransaction.o",
+    "swift-dependencies" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralTransaction.swiftdeps",
+    "swiftmodule" : "/Users/aryansharma/Desktop/Top Secret/Astral-Network-V2/AstralSDK/.build/out/Intermediates.noindex/AstralSDK.build/Debug/AstralSDK-t.build/Objects-normal/arm64/AstralTransaction~partial.swiftmodule"
+  }
+}
