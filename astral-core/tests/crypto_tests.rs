@@ -34,7 +34,10 @@ fn test_chacha20poly1305_roundtrip_with_aad() {
     // Tampered AAD must fail MAC verification
     let tampered_aad = b"Header: sender=Eve, recipient=Bob, nonce=100".to_vec();
     let fail_result = decrypt_payload_with_aad(key, encrypted, tampered_aad);
-    assert!(matches!(fail_result, Err(AstralError::CryptoFailure { .. })));
+    assert!(matches!(
+        fail_result,
+        Err(AstralError::CryptoFailure { .. })
+    ));
 }
 
 #[test]
@@ -109,8 +112,12 @@ fn test_ecdh_hkdf_sha256_symmetric_agreement() {
     assert_eq!(DEFAULT_HKDF_SALT, b"AstralPayment-P256-v1");
 
     // Both parties derive symmetric key using default HKDF-SHA256
-    let alice_derived = alice.derive_symmetric_key(bob_pub.clone()).expect("Alice derivation failed");
-    let bob_derived = bob.derive_symmetric_key(alice_pub.clone()).expect("Bob derivation failed");
+    let alice_derived = alice
+        .derive_symmetric_key(bob_pub.clone())
+        .expect("Alice derivation failed");
+    let bob_derived = bob
+        .derive_symmetric_key(alice_pub.clone())
+        .expect("Bob derivation failed");
 
     // Keys must be 32 bytes and match identically
     assert_eq!(alice_derived.len(), 32);

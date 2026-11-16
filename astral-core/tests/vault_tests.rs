@@ -57,8 +57,9 @@ fn test_vault_inbound_double_spend_detection() {
     }
 
     // Counter mismatch should fail with DoubleSpendDetected
-    let err_counter = vault
-        .verify_inbound_tx("0xnewtx123", 15, 16)
-        .unwrap_err();
-    assert!(matches!(err_counter, AstralError::DoubleSpendDetected { .. }));
+    let err_counter = vault.verify_inbound_tx("0xnewtx123", 15, 16).unwrap_err();
+    assert!(matches!(
+        err_counter,
+        AstralError::DoubleSpendDetected { .. }
+    ));
 }

@@ -1,6 +1,6 @@
+use crate::errors::AstralError;
 use crate::mesh::packet::MeshPacket;
 use crate::mesh::traits::{OfflineStorage, PhysicalRadio};
-use crate::errors::AstralError;
 use std::sync::Arc;
 
 #[derive(uniffi::Object)]
@@ -27,10 +27,14 @@ impl MeshRouter {
 
     /// Processes an incoming raw payload from the physical radio (e.g. BLE/WiFi).
     /// Returns the deserialized `MeshPacket` if the packet was meant for this device.
-    pub fn handle_incoming_packet(&self, raw_data: Vec<u8>) -> Result<Option<MeshPacket>, AstralError> {
-        let mut packet: MeshPacket = bincode::deserialize(&raw_data).map_err(|_| AstralError::FramingError {
-            reason: "Failed to deserialize mesh packet".into()
-        })?;
+    pub fn handle_incoming_packet(
+        &self,
+        raw_data: Vec<u8>,
+    ) -> Result<Option<MeshPacket>, AstralError> {
+        let mut packet: MeshPacket =
+            bincode::deserialize(&raw_data).map_err(|_| AstralError::FramingError {
+                reason: "Failed to deserialize mesh packet".into(),
+            })?;
 
         if self.storage.has_seen_packet(packet.id.clone()) {
             return Ok(None);
@@ -45,7 +49,7 @@ impl MeshRouter {
         if packet.ttl_hops > 0 {
             packet.ttl_hops -= 1;
             self.storage.store_packet(packet.clone());
-            
+
             if let Ok(serialized) = bincode::serialize(&packet) {
                 self.radio.broadcast_payload(serialized);
             }
@@ -56,8 +60,13 @@ impl MeshRouter {
 
     /// Processes an incoming raw payload from the physical radio (e.g. BLE/WiFi).
     /// Returns the encrypted payload if the packet was meant for this device.
-    pub fn handle_incoming_payload(&self, raw_data: Vec<u8>) -> Result<Option<Vec<u8>>, AstralError> {
-        Ok(self.handle_incoming_packet(raw_data)?.map(|p| p.encrypted_payload))
+    pub fn handle_incoming_payload(
+        &self,
+        raw_data: Vec<u8>,
+    ) -> Result<Option<Vec<u8>>, AstralError> {
+        Ok(self
+            .handle_incoming_packet(raw_data)?
+            .map(|p| p.encrypted_payload))
     }
 
     /// Triggers a re-broadcast of all stored, unexpired packets.

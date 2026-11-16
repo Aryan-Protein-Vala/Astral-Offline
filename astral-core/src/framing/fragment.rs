@@ -73,7 +73,9 @@ impl FrameChunk {
         buffer.put_u16(self.session_id);
         buffer.put_u8(self.chunk_index);
         buffer.put_u8(self.total_chunks);
-        let hash_bytes: [u8; 4] = blake3::hash(&self.payload).as_bytes()[0..4].try_into().unwrap();
+        let hash_bytes: [u8; 4] = blake3::hash(&self.payload).as_bytes()[0..4]
+            .try_into()
+            .unwrap();
         buffer.put_slice(&hash_bytes);
         buffer.put_slice(&self.payload);
         buffer.to_vec()
@@ -84,7 +86,11 @@ pub struct PacketFragmenter;
 
 impl PacketFragmenter {
     /// Slices raw bytes based on dynamically negotiated physical MTU (BLE: ~20-512, Wi-Fi: ~1500-65535).
-    pub fn fragment(session_id: u16, payload: &[u8], mtu: usize) -> Result<Vec<Vec<u8>>, AstralError> {
+    pub fn fragment(
+        session_id: u16,
+        payload: &[u8],
+        mtu: usize,
+    ) -> Result<Vec<Vec<u8>>, AstralError> {
         if mtu <= HEADER_SIZE {
             return Err(AstralError::FramingError {
                 reason: "MTU smaller than packet header size".into(),
@@ -96,7 +102,9 @@ impl PacketFragmenter {
         let total_chunks = chunks.len();
 
         if total_chunks > 255 {
-            return Err(AstralError::PayloadTooLarge { size: payload.len() as u32 });
+            return Err(AstralError::PayloadTooLarge {
+                size: payload.len() as u32,
+            });
         }
 
         let total_chunks = if total_chunks == 0 { 1 } else { total_chunks };
@@ -288,9 +296,12 @@ impl PacketReassembler {
             let total_len: usize = session.chunks.values().map(|p| p.len()).sum();
             let mut assembled = Vec::with_capacity(total_len);
             for i in 0..session.total_chunks {
-                let part = session.chunks.get(&i).ok_or_else(|| AstralError::FramingError {
-                    reason: format!("Missing chunk index {}", i),
-                })?;
+                let part = session
+                    .chunks
+                    .get(&i)
+                    .ok_or_else(|| AstralError::FramingError {
+                        reason: format!("Missing chunk index {}", i),
+                    })?;
                 assembled.extend_from_slice(part);
             }
             Ok(Some(assembled))
@@ -338,6 +349,8 @@ impl PacketReassembler {
 
     /// Returns `Some((received_count, total_count))` for an active session.
     pub fn session_progress(&self, session_id: u16) -> Option<(usize, usize)> {
-        self.sessions.get(&session_id).map(|s| (s.chunks.len(), s.total_chunks as usize))
+        self.sessions
+            .get(&session_id)
+            .map(|s| (s.chunks.len(), s.total_chunks as usize))
     }
 }

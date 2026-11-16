@@ -7,11 +7,13 @@ use std::time::Duration;
 
 #[test]
 fn test_fragment_and_reassemble_roundtrip() {
-    let payload = b"Hello, Astral Offline Mesh Network! This is a multi-chunk test message.".repeat(10);
+    let payload =
+        b"Hello, Astral Offline Mesh Network! This is a multi-chunk test message.".repeat(10);
     let session_id = 1337u16;
     let mtu = 50; // Forces multi-chunk fragmentation
 
-    let raw_chunks = PacketFragmenter::fragment(session_id, &payload, mtu).expect("fragmentation failed");
+    let raw_chunks =
+        PacketFragmenter::fragment(session_id, &payload, mtu).expect("fragmentation failed");
     assert!(raw_chunks.len() > 1);
 
     // Verify all chunks have size <= mtu
@@ -38,7 +40,8 @@ fn test_endianness_hash_slice_match() {
     let session_id = 0x1234u16;
     let mtu = 100;
 
-    let raw_chunks = PacketFragmenter::fragment(session_id, chunk_data, mtu).expect("fragmentation failed");
+    let raw_chunks =
+        PacketFragmenter::fragment(session_id, chunk_data, mtu).expect("fragmentation failed");
     let raw = &raw_chunks[0];
 
     // Check header layout:
@@ -66,7 +69,8 @@ fn test_endianness_hash_slice_match() {
 
 #[test]
 fn test_stateful_reassembler_out_of_order() {
-    let payload = b"Fragmented out-of-order message test payload with sufficient length to span 5 chunks.";
+    let payload =
+        b"Fragmented out-of-order message test payload with sufficient length to span 5 chunks.";
     let session_id = 0xABCDu16;
     let mtu = 30;
 
@@ -82,7 +86,9 @@ fn test_stateful_reassembler_out_of_order() {
 
     let mut final_payload = None;
     for &idx in &order {
-        let result = reassembler.process_raw_chunk(&raw_chunks[idx]).expect("chunk processing failed");
+        let result = reassembler
+            .process_raw_chunk(&raw_chunks[idx])
+            .expect("chunk processing failed");
         if let Some(data) = result {
             final_payload = Some(data);
         }
@@ -105,7 +111,9 @@ fn test_reassembler_timeout() {
     let mut reassembler = PacketReassembler::new(Duration::from_millis(20));
 
     // Ingest first chunk
-    let first = reassembler.process_raw_chunk(&raw_chunks[0]).expect("first chunk failed");
+    let first = reassembler
+        .process_raw_chunk(&raw_chunks[0])
+        .expect("first chunk failed");
     assert!(first.is_none());
     assert!(reassembler.has_session(session_id));
 
@@ -134,7 +142,9 @@ fn test_prune_expired_sessions() {
     let raw_chunks = PacketFragmenter::fragment(session_id, payload, mtu).expect("fragment failed");
     let mut reassembler = PacketReassembler::new(Duration::from_millis(15));
 
-    reassembler.process_raw_chunk(&raw_chunks[0]).expect("process failed");
+    reassembler
+        .process_raw_chunk(&raw_chunks[0])
+        .expect("process failed");
     assert_eq!(reassembler.active_session_count(), 1);
 
     thread::sleep(Duration::from_millis(25));
@@ -180,7 +190,8 @@ fn test_mtu_too_small() {
 #[test]
 fn test_empty_payload_fragmentation() {
     let payload = b"";
-    let raw_chunks = PacketFragmenter::fragment(42, payload, 50).expect("fragment empty payload failed");
+    let raw_chunks =
+        PacketFragmenter::fragment(42, payload, 50).expect("fragment empty payload failed");
     assert_eq!(raw_chunks.len(), 1);
 
     let parsed = FrameChunk::parse(&raw_chunks[0]).expect("parse empty chunk failed");

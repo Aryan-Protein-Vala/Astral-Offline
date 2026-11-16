@@ -1,8 +1,8 @@
+use crate::errors::AstralError;
 use chacha20poly1305::{
     aead::{Aead, AeadCore, KeyInit, OsRng, Payload},
     ChaCha20Poly1305, Key, Nonce,
 };
-use crate::errors::AstralError;
 
 pub const NONCE_SIZE: usize = 12;
 pub const TAG_SIZE: usize = 16;
@@ -30,9 +30,12 @@ pub fn encrypt_payload_with_aad(
         aad: aad.as_slice(),
     };
 
-    let ciphertext = cipher.encrypt(&nonce, aead_payload).map_err(|_| AstralError::CryptoFailure {
-        reason: "Encryption failed (Poly1305)".into(),
-    })?;
+    let ciphertext =
+        cipher
+            .encrypt(&nonce, aead_payload)
+            .map_err(|_| AstralError::CryptoFailure {
+                reason: "Encryption failed (Poly1305)".into(),
+            })?;
 
     let mut packed = nonce.to_vec();
     packed.extend(ciphertext);
@@ -78,14 +81,19 @@ pub fn decrypt_payload_with_aad(
         aad: aad.as_slice(),
     };
 
-    cipher.decrypt(nonce, aead_payload).map_err(|_| AstralError::CryptoFailure {
-        reason: "Decryption or MAC verification failed (Poly1305)".into(),
-    })
+    cipher
+        .decrypt(nonce, aead_payload)
+        .map_err(|_| AstralError::CryptoFailure {
+            reason: "Decryption or MAC verification failed (Poly1305)".into(),
+        })
 }
 
 /// Decrypts a payload encrypted with `encrypt_payload`.
 /// Expects the first 12 bytes to be the nonce, followed by ciphertext and 16-byte Poly1305 tag.
 #[uniffi::export]
-pub fn decrypt_payload(symmetric_key: Vec<u8>, packed_data: Vec<u8>) -> Result<Vec<u8>, AstralError> {
+pub fn decrypt_payload(
+    symmetric_key: Vec<u8>,
+    packed_data: Vec<u8>,
+) -> Result<Vec<u8>, AstralError> {
     decrypt_payload_with_aad(symmetric_key, packed_data, Vec::new())
 }

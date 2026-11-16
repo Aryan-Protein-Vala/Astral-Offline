@@ -6,16 +6,16 @@ pub mod state;
 
 uniffi::setup_scaffolding!();
 
+use crypto::cipher::{decrypt_payload, encrypt_payload};
+use crypto::ecdh::AstralKeypair;
 use errors::AstralError;
 use framing::fragment::{FrameChunk, PacketFragmenter, PacketReassembler};
-use state::vault::HardwareVault;
-use mesh::router::MeshRouter;
 use mesh::packet::MeshPacket;
+use mesh::router::MeshRouter;
 use mesh::traits::{OfflineStorage, PhysicalRadio};
-use crypto::ecdh::AstralKeypair;
-use crypto::cipher::{encrypt_payload, decrypt_payload};
-use std::sync::Arc;
 use parking_lot::RwLock;
+use state::vault::HardwareVault;
+use std::sync::Arc;
 
 /// The single entry point for the Astral Offline SDK.
 ///
@@ -58,11 +58,7 @@ impl AstralPaymentEngine {
         storage: Arc<dyn OfflineStorage>,
         radio: Arc<dyn PhysicalRadio>,
     ) {
-        let router = MeshRouter::new(
-            self.local_pubkey.clone(),
-            storage,
-            radio,
-        );
+        let router = MeshRouter::new(self.local_pubkey.clone(), storage, radio);
         *self.router.write() = Some(router);
     }
 
@@ -87,7 +83,9 @@ impl AstralPaymentEngine {
         mtu: u32,
     ) -> Result<(), AstralError> {
         // 1. ECDH: derive shared symmetric key
-        let sym_key = self.keypair.derive_symmetric_key(recipient_pubkey.clone())?;
+        let sym_key = self
+            .keypair
+            .derive_symmetric_key(recipient_pubkey.clone())?;
 
         // 2. Encrypt with ChaCha20-Poly1305
         let encrypted = encrypt_payload(sym_key, payload)?;
@@ -108,8 +106,10 @@ impl AstralPaymentEngine {
         }
 
         // Fragment the serialized packet for the physical MTU
-        let serialized = bincode::serialize(&mesh_packet)
-            .map_err(|_| AstralError::FramingError { reason: "Serialization failed".into() })?;
+        let serialized =
+            bincode::serialize(&mesh_packet).map_err(|_| AstralError::FramingError {
+                reason: "Serialization failed".into(),
+            })?;
         let _ = PacketFragmenter::fragment(0, &serialized, mtu as usize)?;
 
         Ok(())
@@ -118,7 +118,10 @@ impl AstralPaymentEngine {
     /// Called by the native platform when raw bytes arrive from BLE or WiFi.
     /// Returns the decrypted plaintext if this packet was addressed to us,
     /// or `None` if it was forwarded to another node.
-    pub fn handle_incoming_payload(&self, raw_data: Vec<u8>) -> Result<Option<Vec<u8>>, AstralError> {
+    pub fn handle_incoming_payload(
+        &self,
+        raw_data: Vec<u8>,
+    ) -> Result<Option<Vec<u8>>, AstralError> {
         let router = self.router.read();
         let r = router.as_ref().ok_or_else(|| AstralError::CryptoFailure {
             reason: "Engine not initialized — call register_adapters() first".into(),
@@ -148,7 +151,12 @@ impl AstralPaymentEngine {
     }
 
     /// MTU-aware fragmentation. Called by the platform transport layer.
-    pub fn fragment_for_radio(&self, session_id: u16, payload: Vec<u8>, mtu: u32) -> Result<Vec<Vec<u8>>, AstralError> {
+    pub fn fragment_for_radio(
+        &self,
+        session_id: u16,
+        payload: Vec<u8>,
+        mtu: u32,
+    ) -> Result<Vec<Vec<u8>>, AstralError> {
         PacketFragmenter::fragment(session_id, &payload, mtu as usize)
     }
 

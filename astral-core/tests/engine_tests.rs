@@ -1,6 +1,6 @@
-use astral_core::AstralPaymentEngine;
 use astral_core::mesh::packet::MeshPacket;
 use astral_core::mesh::traits::{OfflineStorage, PhysicalRadio};
+use astral_core::AstralPaymentEngine;
 use parking_lot::RwLock;
 use std::collections::HashSet;
 use std::sync::Arc;
@@ -64,7 +64,9 @@ fn test_engine_initialization_and_keys() {
     assert_eq!(pubkey.len(), 65);
     assert_eq!(pubkey[0], 0x04);
 
-    let counter = engine.authorize_offline_payment(5_000).expect("spend failed");
+    let counter = engine
+        .authorize_offline_payment(5_000)
+        .expect("spend failed");
     assert_eq!(counter, 1);
 
     let digest = engine.blake3_hash(b"hello world".to_vec());
@@ -113,8 +115,11 @@ fn test_engine_mesh_routing_and_e2e_encryption() {
     // Check that Alice's radio broadcasted the fragmented packet
     // Now simulate Bob receiving a packet directly addressed to Bob
     let alice_keypair_for_bob = astral_core::crypto::ecdh::AstralKeypair::generate();
-    let shared = alice_keypair_for_bob.derive_symmetric_key(bob.get_public_key()).unwrap();
-    let encrypted = astral_core::crypto::cipher::encrypt_payload(shared, secret_message.clone()).unwrap();
+    let shared = alice_keypair_for_bob
+        .derive_symmetric_key(bob.get_public_key())
+        .unwrap();
+    let encrypted =
+        astral_core::crypto::cipher::encrypt_payload(shared, secret_message.clone()).unwrap();
 
     let packet = MeshPacket {
         id: "unique_tx_packet_1".into(),
@@ -125,7 +130,9 @@ fn test_engine_mesh_routing_and_e2e_encryption() {
     };
 
     let serialized = bincode::serialize(&packet).unwrap();
-    let result = bob.handle_incoming_payload(serialized).expect("handle_incoming_payload failed");
+    let result = bob
+        .handle_incoming_payload(serialized)
+        .expect("handle_incoming_payload failed");
 
     // Packet was meant for Bob, so Bob receives the decrypted plaintext
     assert_eq!(result, Some(secret_message));

@@ -1,12 +1,9 @@
-use p256::{
-    elliptic_curve::sec1::ToEncodedPoint,
-    PublicKey, SecretKey,
-};
-use rand_core::OsRng;
 use crate::errors::AstralError;
-use std::sync::Arc;
 use hkdf::Hkdf;
+use p256::{elliptic_curve::sec1::ToEncodedPoint, PublicKey, SecretKey};
+use rand_core::OsRng;
 use sha2::Sha256;
+use std::sync::Arc;
 
 pub const DEFAULT_HKDF_SALT: &[u8] = b"AstralPayment-P256-v1";
 
@@ -50,11 +47,14 @@ impl AstralKeypair {
         salt: Option<Vec<u8>>,
         info: Option<Vec<u8>>,
     ) -> Result<Vec<u8>, AstralError> {
-        let remote_pub = PublicKey::from_sec1_bytes(&remote_pub_bytes).map_err(|_| AstralError::CryptoFailure {
-            reason: "Invalid uncompressed P-256 public key".into(),
+        let remote_pub = PublicKey::from_sec1_bytes(&remote_pub_bytes).map_err(|_| {
+            AstralError::CryptoFailure {
+                reason: "Invalid uncompressed P-256 public key".into(),
+            }
         })?;
 
-        let shared = p256::ecdh::diffie_hellman(self.secret.to_nonzero_scalar(), remote_pub.as_affine());
+        let shared =
+            p256::ecdh::diffie_hellman(self.secret.to_nonzero_scalar(), remote_pub.as_affine());
         let shared_bytes = shared.raw_secret_bytes();
 
         let salt_ref = salt.as_deref().unwrap_or(DEFAULT_HKDF_SALT);
@@ -73,9 +73,10 @@ impl AstralKeypair {
         let info_ref = info.as_deref().unwrap_or(&canonical_info);
 
         let mut okm = [0u8; 32];
-        hk.expand(info_ref, &mut okm).map_err(|_| AstralError::CryptoFailure {
-            reason: "HKDF-SHA256 expansion failed".into(),
-        })?;
+        hk.expand(info_ref, &mut okm)
+            .map_err(|_| AstralError::CryptoFailure {
+                reason: "HKDF-SHA256 expansion failed".into(),
+            })?;
 
         Ok(okm.to_vec())
     }

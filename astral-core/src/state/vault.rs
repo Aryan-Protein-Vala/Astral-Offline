@@ -54,12 +54,16 @@ impl HardwareVault {
         expected_counter: u64,
     ) -> Result<(), AstralError> {
         if remote_counter != expected_counter {
-            return Err(AstralError::DoubleSpendDetected { counter: remote_counter });
+            return Err(AstralError::DoubleSpendDetected {
+                counter: remote_counter,
+            });
         }
 
         let mut seen = self.seen_transactions.write();
         if seen.contains(tx_hash) {
-            return Err(AstralError::DoubleSpendDetected { counter: remote_counter });
+            return Err(AstralError::DoubleSpendDetected {
+                counter: remote_counter,
+            });
         }
 
         seen.insert(tx_hash.to_string());
