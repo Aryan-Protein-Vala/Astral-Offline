@@ -3,3 +3,14 @@ target/
 *.xcworkspace
 *.xcuserdatad
 node_modules/
+
+# Build & OS artifacts
+.build/
+AstralSDK/.build/
+.DS_Store
+
+# Local AI agent scratch files
+CLAUDE.md
+AGENTS.md
+GEMINI.md
+.cursor/
